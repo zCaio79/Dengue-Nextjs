@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Roboto_Mono } from "next/font/google";
 import "./globals.css";
+
+const robotoMono = Roboto_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"], // Escolha os pesos desejados
+  variable: "--font-roboto-mono", // Variável CSS para Tailwind
+  display: "swap",
+});
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
+    <html lang="pt-br" className={robotoMono.variable}>
        <head>
           
           <link

@@ -13,7 +13,15 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        robotoMono: "var(--font-roboto-mono), monospace",
+      },
+      screens: {
+        'h-sm': { raw: '(max-height: 500px)' },
+        'h-md': { raw: '(max-height: 700px)' }, 
+      },
     },
   },
   plugins: [],
 } satisfies Config;
+
