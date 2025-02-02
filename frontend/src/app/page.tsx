@@ -12,12 +12,12 @@ export default function intro() {
 
         <section className="flex flex-col gap-8 text-6xl  p-2 drop-shadow-xl xl:text-8xl ">
 
-          <div className="flex flex-col uppercase font-bold text-center lg:text-left">
+          <div className="flex flex-col font-sans uppercase font-bold text-center lg:text-left">
             <h1>Dengue</h1>
             <h1>Zero</h1>
           </div>
 
-          <span className="flex flex-wrap gap-2 items-center justify-center text-sm font-robotoMono font-medium rounded-lg py-2 px-2 xl:flex-nowrap xl:text-lg xl:text-left xl:justify-start">
+          <span className="flex flex-wrap gap-2 items-center justify-center text-center text-sm font-robotoMono font-medium rounded-lg py-2 px-2 xl:flex-nowrap xl:text-lg xl:text-left xl:justify-start">
             <ShieldPlus />
             Mapa interativo de combate a <span className="font-bold">Dengue</span>
           </span>
@@ -29,7 +29,7 @@ export default function intro() {
 
         </section>
 
-        <article className="flex items-center bg-white bg-opacity-80 border-2 border-white rounded-full p-2 h-sm:hidden">
+        <article className="flex items-center bg-white bg-opacity-80 border-2 border-white rounded-full p-2 h-md:hidden">
 
           <a href="#about">
             <img className="flex drop-shadow-xl"
@@ -53,7 +53,7 @@ export default function intro() {
           <div className='flex flex-row flex-wrap h-fit gap-8 justify-center sm:flex-nowrap'>
 
             <article>
-
+              
               <img className='bg-red-500 h-full rounded-2xl'
                 src="/sickperson.png"
                 alt="pessoa doente"
@@ -63,7 +63,7 @@ export default function intro() {
 
             </article>
 
-            <article className='flex flex-col gap-4 w-96 h-fit border-red-500 border-4 border-dashed rounded-lg p-6'>
+            <article className='flex flex-col gap-4 w-96 justify-around border-red-500 border-4 border-dashed rounded-lg p-6'>
 
               <p className='text-sm font-semibold text-justify font-robotoMono text-black text-pretty xl:text-base'>A dengue é uma doença febril aguda, sistêmica, dinâmica, debilitante e autolimitada.
                 A maioria dos doentes se recupera, porém, parte deles podem progredir para formas graves, inclusive virem a <span className='text-red-500'>óbito</span>.
@@ -106,7 +106,7 @@ export default function intro() {
             height={200}
           />
 
-          <article className='flex flex-col gap-4 w-full h-fit border-red-500 border-4 border-dashed rounded-lg p-6'>
+          <article className='flex flex-col justify-around gap-4 w-full h-fit border-red-500 border-4 border-dashed rounded-lg p-6'>
 
             <p className='text-sm text-justify font-semibold font-robotoMono text-black text-pretty lg:text-base'>O mosquito da dengue, <span className='text-red-500'>Aedes aegypti</span>, é o principal vetor do vírus da dengue, que causa uma doença febril aguda e debilitante.
               Ele transmite o vírus ao picar uma pessoa infectada e, em seguida, picar outra.
@@ -150,7 +150,7 @@ export function sintomas() {
   return (
     <>
       {symptoms.map((symptom, index) => (
-        <p key={index} className="flex py-2 px-4 font-robotoMono bg-red-500 rounded-md text-sm xl:text-base">
+        <p key={index} className="flex py-2 px-4 font-robotoMono text-center bg-red-500 rounded-md text-sm xl:text-base">
           {symptom}
         </p>
       ))}
