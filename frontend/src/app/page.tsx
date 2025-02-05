@@ -17,7 +17,8 @@ export default function intro() {
             <h1>Zero</h1>
           </div>
 
-          <span className="flex flex-wrap gap-2 items-center justify-center text-center text-sm font-robotoMono font-medium rounded-lg py-2 px-2 xl:flex-nowrap xl:text-lg xl:text-left xl:justify-start">
+          <span className="flex flex-wrap gap-2 items-center justify-center text-center text-sm font-robotoMono
+           font-medium rounded-lg py-2 px-2 xl:flex-nowrap xl:text-lg xl:text-left xl:justify-start">
             <ShieldPlus />
             Mapa interativo de combate a <span className="font-bold">Dengue</span>
           </span>
@@ -65,12 +66,17 @@ export default function intro() {
 
             <article className='flex flex-col gap-4 w-96 justify-around border-red-500 border-4 border-dashed rounded-lg p-6'>
 
-              <p className='text-sm font-semibold text-justify font-robotoMono text-black text-pretty xl:text-base'>A dengue é uma doença febril aguda, sistêmica, dinâmica, debilitante e autolimitada.
+              <p className='text-sm font-semibold text-justify font-robotoMono text-black text-pretty xl:text-base'>
+                A dengue é uma doença febril aguda, sistêmica, dinâmica, debilitante e autolimitada.
                 A maioria dos doentes se recupera, porém, parte deles podem progredir para formas graves, inclusive virem a <span className='text-red-500'>óbito</span>.
                 A quase totalidade dos óbitos por dengue é evitável e depende, na maioria das vezes, da qualidade da assistência prestada e organização da rede de serviços de saúde.
               </p>
 
-              <a className="flex gap-2 w-fit font-robotoMono text-sm  font-semibold self-end bg-red-500 rounded-lg py-1 px-4 text-white hover:text-red-500 hover:bg-opacity-30 xl:text-base" href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/d/dengue"><ArrowRight />Saiba mais</a>
+              <a className="flex gap-2 w-fit font-robotoMono text-sm  font-semibold self-end bg-red-500
+               rounded-lg py-1 px-4 text-white hover:text-red-500 hover:bg-opacity-30 xl:text-base"
+              href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/d/dengue">
+                <ArrowRight />Saiba mais
+              </a>
 
             </article>
 
@@ -83,8 +89,8 @@ export default function intro() {
 
           </div>
 
-
-          <article className='flex w-full gap-4 text-base font-medium justify-center flex-wrap rounded-md p-6 border-4 border-dashed border-red-500'>
+          <article className='flex w-full gap-4 text-base font-medium justify-center
+           flex-wrap rounded-md p-6 border-4 border-dashed border-red-500'>
             {sintomas()}
           </article>
 
@@ -108,14 +114,18 @@ export default function intro() {
 
           <article className='flex flex-col justify-around gap-4 w-full h-fit border-red-500 border-4 border-dashed rounded-lg p-6'>
 
-            <p className='text-sm text-justify font-semibold font-robotoMono text-black text-pretty lg:text-base'>O mosquito da dengue, <span className='text-red-500'>Aedes aegypti</span>, é o principal vetor do vírus da dengue, que causa uma doença febril aguda e debilitante.
+            <p className='text-sm text-justify font-semibold font-robotoMono text-black text-pretty lg:text-base'>
+              O mosquito da dengue, <span className='text-red-500'>Aedes aegypti</span>, 
+              é o principal vetor do vírus da dengue, que causa uma doença febril aguda e debilitante.
               Ele transmite o vírus ao picar uma pessoa infectada e, em seguida, picar outra.
               A reprodução ocorre em ambientes com água parada, onde a fêmea deposita seus ovos.
               As larvas eclodem e se desenvolvem até se tornarem mosquitos adultos.
               A prevenção envolve eliminar criadouros e utilizar métodos de proteção, como repelentes e telas.
             </p>
 
-            <p className='text-red-500 font-robotoMono text-sm text-center font-semibold'>Em caso de foco procure pela secretaria da saúde do seu município</p>
+            <p className='text-red-500 font-robotoMono text-sm text-center font-semibold'>
+              Em caso de foco procure pela secretaria da saúde do seu município
+            </p>
 
           </article>
 
@@ -156,4 +166,4 @@ export function sintomas() {
       ))}
     </>
   );
-} 
+}
