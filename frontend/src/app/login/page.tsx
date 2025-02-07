@@ -1,68 +1,22 @@
-'use client'
 
-import { Eye, EyeOff, ChevronRight, ChevronLeft, } from "lucide-react";
-import { useState } from "react";
+
+import Footer from "@/components/footer";
+import LoginForm from "@/components/loginForm";
 
 export default function Login() {
-  const [showPassword, setShowPassword] = useState(false);
-  const error = false
-
-  const handleSubmitLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-  }
 
   return (
-    <div className="text-white px-6 pt-6 pb-3 gap-4 font-pop flex h-screen flex-col w-full justify-center
-     items-center bg-gradient-to-r from-red-500 via-orange-500 to-red-500">
+    <div className="text-white px-6 pt-6 pb-3 gap-4 flex min-h-screen flex-col w-full justify-center
+         items-center bg-gradient-to-r from-red-500 via-orange-500 to-red-500 md:h-screen">
 
-      <main className="flex w-full h-full items-center justify-center
-       rounded-lg border-white border-4 border-dashed overflow-scroll">
-        
-        <form onSubmit={handleSubmitLogin} className="flex flex-col gap-4 h-fit w-60 py-7 px-6 font-robotoMono text-red-500 font-semibold bg-white rounded-lg md:w-80">
+      <main className="flex w-full h-full  items-center justify-center
+         rounded-lg border-white border-4 border-dashed">
 
-          <h1 className="flex items-center self-center font-bold text-lg gap-2 mb-2"><ChevronLeft className=" size-5"/>Login<ChevronRight className="size-5"/></h1>
-      
-          <label htmlFor="email">e-mail :</label>
-          <input 
-            id="email"
-            type="text" 
-            className="p-2 border-2 border-dashed border-red-500 rounded-md text-zinc-900 text-sm outline-none" 
-            spellCheck="false" 
-          />
-
-          <label htmlFor="password">senha :</label>
-          <div className="relative flex w-full">
-            <input 
-              id="password"
-              type={showPassword ? "text" : "password"} 
-              className="p-2 pr-8 w-full border-2 border-dashed border-red-500 rounded-md text-zinc-900 text-sm outline-none" 
-              spellCheck="false"
-            />
-            <button 
-              type="button" 
-              onClick={() => setShowPassword(!showPassword)} 
-              className="absolute inset-y-0 right-2 flex items-center justify-center outline-none"
-            >
-              {showPassword ? <Eye className="size-5 text-red-500" /> : <EyeOff className="size-5 text-red-500" />}
-            </button>
-          </div>
-
-          {error && <div className="text-xs w-full text-center bg-red-500 text-white rounded-md py-1">usuário ou senha inválidos!</div>}
-          
-          <button type="submit" className="flex self-center my-1 w-fit text-sm bg-red-500 rounded-lg py-1 px-3 text-white hover:bg-red-400">
-            Entrar
-          </button>
-
-          <hr className="border-t-2 border-dashed border-red-500" />
-
-          <a href="/register" className="text-xs self-center underline text-red-500 hover:text-red-400">não possui uma conta?</a>
-        </form>
+        <LoginForm />
 
       </main>
 
-      <footer className="flex w-full justify-center">
-        <p className="text-xs font-semibold"> &#169;{new Date().getFullYear()} Dengue Zero</p>
-      </footer>
+      <Footer />
 
     </div>
   );

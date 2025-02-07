@@ -1,4 +1,5 @@
 
+import Footer from '@/components/footer';
 import { ArrowDown, ArrowRight, ShieldPlus, Bug } from 'lucide-react';
 
 export default function intro() {
@@ -135,9 +136,7 @@ export default function intro() {
 
       <div className='flex my-2 w-full h-[1px] border-t-4 border-dashed border-white'></div>
 
-      <footer className="flex w-full justify-center">
-        <p className="font-robotoMono text-xs font-semibold"> &#169;{new Date().getFullYear()} Dengue Zero</p>
-      </footer>
+      <Footer/>
 
     </div>
 
