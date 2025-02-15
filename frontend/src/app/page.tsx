@@ -1,6 +1,8 @@
 
 import Footer from '@/components/footer';
 import { ArrowDown, ArrowRight, ShieldPlus, Bug } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function intro() {
   return (
@@ -8,7 +10,7 @@ export default function intro() {
      items-center bg-gradient-to-r from-red-500 via-orange-500 to-red-500">
 
       <main className="flex flex-col w-full h-[90vh] items-center justify-around
-       p-6 rounded-lg border-4 border-white border-dashed xl:flex-row ">
+       p-6 rounded-lg border-4 border-white border-dashed lg:flex-row ">
 
 
         <section className="flex flex-col gap-8 text-6xl  p-2 drop-shadow-xl xl:text-8xl ">
@@ -25,20 +27,24 @@ export default function intro() {
           </span>
 
           <div className="flex gap-4 font-robotoMono text-base font-medium justify-center items-center lg:justify-start">
-            <a className="bg-white rounded-lg py-1 px-3 text-red-500 hover:text-white hover:bg-opacity-30" href="/login">Login</a>
-            <a className="rounded-md py-1 px-3 underline" href="#map">Mapear</a>
+            <Link className="bg-white rounded-lg py-1 px-3 text-red-500 hover:text-white hover:bg-opacity-30" href="/login">Login</Link>
+            <Link className="rounded-md py-1 px-3 underline" href="/dashboard">Mapear</Link>
           </div>
 
         </section>
 
+        
         <article className="flex items-center bg-white bg-opacity-80 border-2 border-white rounded-full p-2 h-md:hidden">
 
           <a href="#about">
-            <img className="flex drop-shadow-xl"
+            <Image
+              unoptimized
+              className="flex drop-shadow-xl"
               src="/mosquito.gif"
               alt="mosquito gif"
               width={350}
               height={200}
+              priority
             />
           </a>
 
@@ -54,9 +60,9 @@ export default function intro() {
 
           <div className='flex flex-row flex-wrap h-fit gap-8 justify-center sm:flex-nowrap'>
 
-            <article>
+            <article className='flex'>
               
-              <img className='bg-red-500 h-full rounded-2xl'
+              <Image className='bg-red-500 h-full rounded-2xl'
                 src="/sickperson.png"
                 alt="pessoa doente"
                 width={350}
@@ -86,7 +92,7 @@ export default function intro() {
 
           <div className='flex bg-red-500 rounded-md p-2 items-center justify-center'>
 
-            <h1 className=' text-lg font-robotoMono font-semibold text-center'>Sintomas</h1>
+            <h1 className=' text-base font-robotoMono font-semibold text-center'>Sintomas</h1>
 
           </div>
 
@@ -101,12 +107,12 @@ export default function intro() {
 
           <div className='flex w-full bg-red-500 rounded-md gap-4 p-2 items-center justify-center'>
 
-            <h1 className='itens-center font-robotoMono font-semibold text-lg text-center'>Transmissor </h1>
+            <h1 className='itens-center font-robotoMono font-semibold text-base text-center'>Transmissor </h1>
             <Bug />
 
           </div>
 
-          <img className=' drop-shadow-lg'
+          <Image className=' drop-shadow-lg'
             src="/transmissor1.png"
             alt="pessoa doente"
             width={300}
@@ -134,7 +140,7 @@ export default function intro() {
 
       </div>
 
-      <div className='flex my-2 w-full h-[1px] border-t-4 border-dashed border-white'></div>
+      <div className='flex mt-4 mb-2 w-full h-[1px] border-t-4 border-dashed border-white'></div>
 
       <Footer/>
 

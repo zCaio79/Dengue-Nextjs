@@ -2,6 +2,7 @@
 
 import { Eye, EyeOff, ChevronRight, ChevronLeft, } from "lucide-react";
 import { useState } from "react";
+import Link from 'next/link';
 
 export default function LoginForm() {
 
@@ -51,7 +52,7 @@ export default function LoginForm() {
 
             <hr className="border-t-2 border-dashed border-red-500" />
 
-            <a href="/register" className="text-xs self-center underline text-red-500 hover:text-red-400">não possui uma conta?</a>
+            <Link href="/register" className="text-xs self-center underline text-red-500 hover:text-red-400">não possui uma conta?</Link>
         </form>
     )
 }
