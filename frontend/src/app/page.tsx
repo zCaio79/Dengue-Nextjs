@@ -7,10 +7,10 @@ import Image from 'next/image';
 export default function intro() {
   return (
     <div className="text-white px-6 pt-6 pb-3 gap-4 font-pop flex h-full flex-col w-full justify-center
-     items-center bg-gradient-to-r from-red-500 via-orange-500 to-red-500">
+     items-center bg-zinc-900">
 
       <main className="flex flex-col w-full h-[90vh] items-center justify-around
-       p-6 rounded-lg border-4 border-white border-dashed lg:flex-row ">
+       py-6 px-8 rounded-lg border-4 border-white border-dashed lg:flex-row ">
 
 
         <section className="flex flex-col gap-8 text-6xl  p-2 drop-shadow-xl xl:text-8xl ">
@@ -27,7 +27,7 @@ export default function intro() {
           </span>
 
           <div className="flex gap-4 font-robotoMono text-base font-medium justify-center items-center lg:justify-start">
-            <Link className="bg-white rounded-lg py-1 px-3 text-red-500 hover:text-white hover:bg-opacity-30" href="/login">Login</Link>
+            <Link className="bg-red-500 rounded-lg py-1 px-3 text-white hover:bg-opacity-30" href="/login">Login</Link>
             <Link className="rounded-md py-1 px-3 underline" href="/dashboard">Mapear</Link>
           </div>
 
@@ -56,13 +56,13 @@ export default function intro() {
 
       <div className='flex flex-col gap-4 w-full justify-around xl:flex-row'>
 
-        <section id="about" className="flex flex-col gap-6  p-8 h-fit rounded-lg bg-white xl:w-[55vw]">
+        <section id="about" className="flex flex-col gap-6 p-8 h-fit rounded-lg bg-white xl:w-[55vw]">
 
           <div className='flex flex-row flex-wrap h-fit gap-8 justify-center sm:flex-nowrap'>
 
             <article className='flex'>
               
-              <Image className='bg-red-500 h-full rounded-2xl'
+              <Image className='bg-zinc-900 h-full rounded-2xl'
                 src="/sickperson.png"
                 alt="pessoa doente"
                 width={350}
@@ -71,16 +71,16 @@ export default function intro() {
 
             </article>
 
-            <article className='flex flex-col gap-4 w-96 justify-around border-red-500 border-4 border-dashed rounded-lg p-6'>
+            <article className='flex flex-col gap-4 w-96 justify-around border-4 border-dashed border-red-500 rounded-lg p-6'>
 
-              <p className='text-sm font-semibold text-justify font-robotoMono text-black text-pretty xl:text-base'>
+              <p className='text-sm font-semibold text-justify font-robotoMono text-zinc-900 text-pretty xl:text-base'>
                 A dengue é uma doença febril aguda, sistêmica, dinâmica, debilitante e autolimitada.
                 A maioria dos doentes se recupera, porém, parte deles podem progredir para formas graves, inclusive virem a <span className='text-red-500'>óbito</span>.
                 A quase totalidade dos óbitos por dengue é evitável e depende, na maioria das vezes, da qualidade da assistência prestada e organização da rede de serviços de saúde.
               </p>
 
               <a className="flex gap-2 w-fit font-robotoMono text-sm  font-semibold self-end bg-red-500
-               rounded-lg py-1 px-4 text-white hover:text-red-500 hover:bg-opacity-30 xl:text-base"
+               rounded-lg py-1 px-4 text-white hover:bg-opacity-50 xl:text-base"
               href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/d/dengue">
                 <ArrowRight />Saiba mais
               </a>
@@ -103,7 +103,7 @@ export default function intro() {
 
         </section>
 
-        <section className='flex flex-col gap-6 items-center p-8 h-fit rounded-lg bg-white xl:w-[35vw]'>
+        <section className='flex flex-col gap-6 items-center p-8 h-full rounded-lg bg-white xl:w-[35vw]'>
 
           <div className='flex w-full bg-red-500 rounded-md gap-4 p-2 items-center justify-center'>
 
@@ -114,14 +114,14 @@ export default function intro() {
 
           <Image className=' drop-shadow-lg'
             src="/transmissor1.png"
-            alt="pessoa doente"
+            alt="mosquito da dengue"
             width={300}
             height={200}
           />
 
-          <article className='flex flex-col justify-around gap-4 w-full h-fit border-red-500 border-4 border-dashed rounded-lg p-6'>
+          <article className='flex flex-col justify-around gap-4 w-full h-full border-4 border-dashed border-red-500 text-zinc-900 rounded-lg p-6'>
 
-            <p className='text-sm text-justify font-semibold font-robotoMono text-black text-pretty lg:text-base'>
+            <p className='text-sm text-justify font-semibold font-robotoMono  text-pretty lg:text-base'>
               O mosquito da dengue, <span className='text-red-500'>Aedes aegypti</span>, 
               é o principal vetor do vírus da dengue, que causa uma doença febril aguda e debilitante.
               Ele transmite o vírus ao picar uma pessoa infectada e, em seguida, picar outra.
@@ -165,7 +165,7 @@ export function sintomas() {
   return (
     <>
       {symptoms.map((symptom, index) => (
-        <p key={index} className="flex py-2 px-4 font-robotoMono text-center bg-red-500 rounded-md text-sm xl:text-base">
+        <p key={index} className="flex py-2 px-4 font-robotoMono text-center bg-red-500 rounded-md text-xs xl:text-base">
           {symptom}
         </p>
       ))}
