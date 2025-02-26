@@ -74,7 +74,7 @@ export default function LoginForm() {
 
 
     return (
-        <form onSubmit={handleSubmitLogin} className="flex flex-col gap-4 h-fit w-screen py-7 px-6 font-robotoMono text-red-500 font-semibold bg-white rounded-lg md:w-80">
+        <form onSubmit={handleSubmitLogin} className="flex flex-col gap-4 h-fit w-screen py-7 px-6 font-robotoMono text-zinc-900 font-semibold bg-white rounded-lg md:w-80">
 
             <h1 className="flex items-center self-center font-bold text-lg gap-2 mb-2"><ChevronLeft className=" size-5" />Login<ChevronRight className="size-5" /></h1>
 
@@ -83,7 +83,7 @@ export default function LoginForm() {
                 id="email"
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
-                className="p-2 border-2 border-dashed border-red-500 rounded-md text-zinc-900 text-sm outline-none"
+                className="p-2 border-2 border-dashed border-zinc-900 rounded-md text-zinc-900 text-sm outline-none"
                 spellCheck="false"
                 placeholder="ex: caio@gmail.com"
                 required
@@ -94,7 +94,7 @@ export default function LoginForm() {
                 <input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    className="p-2 pr-8 w-full border-2 border-dashed border-red-500 rounded-md text-zinc-900 text-sm outline-none"
+                    className="p-2 pr-8 w-full border-2 border-dashed border-zinc-900 rounded-md text-zinc-900 text-sm outline-none"
                     spellCheck="false"
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -123,7 +123,7 @@ export default function LoginForm() {
                 </button>
             }
 
-            <hr className="border-t-2 border-dashed border-red-500" />
+            <hr className="border-t-2 border-dashed border-zinc-900" />
 
             <Link href="/register" className="text-xs self-center underline text-red-500 hover:text-red-400">não possui uma conta?</Link>
         </form>

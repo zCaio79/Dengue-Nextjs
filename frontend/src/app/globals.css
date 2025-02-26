@@ -20,6 +20,18 @@
   }
 }
 
+.leaflet-popup-content-wrapper {
+  @apply bg-white rounded-lg shadow-sm p-1;
+}
+
+.leaflet-popup-content {
+  @apply text-zinc-900 text-center font-bold;
+}
+
+.leaflet-popup-tip {
+  background-color: white !important;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

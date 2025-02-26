@@ -12,7 +12,7 @@ export default function DateFilterBtn() {
             
             <button
                 type="button"
-                className="flex items-center gap-2 h-full w-fit text-nowrap text-sm bg-red-500 rounded-lg px-3 py-2 font-bold font-robotoMono text-white hover:bg-red-400"
+                className="flex items-center gap-2 h-full w-fit text-nowrap text-xs bg-red-500 rounded-lg px-3 py-2 font-bold font-robotoMono text-white hover:bg-red-400 sm:text-sm"
                 onClick={() => setShowDatePicker(!showDatePicker)}
             >
                 <p>Filtrar Data</p>
@@ -21,7 +21,7 @@ export default function DateFilterBtn() {
 
             
             {showDatePicker && (
-                <div className="absolute top-full left-0 mt-2 bg-white border-2 border-zinc-300 flex items-center shadow-lg rounded-lg p-3 z-10">
+                <div className="absolute z-50 top-full left-0 mt-2 bg-white border-2 border-zinc-300 flex items-center shadow-lg rounded-lg p-3 z-10">
                     <DatePicker
                         maxDate={new Date()}
                         selected={selectedDate}

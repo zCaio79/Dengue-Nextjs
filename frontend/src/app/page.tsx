@@ -71,7 +71,7 @@ export default function intro() {
 
             </article>
 
-            <article className='flex flex-col gap-4 w-96 justify-around border-4 border-dashed border-red-500 rounded-lg p-6'>
+            <article className='flex flex-col gap-4 w-96 justify-around border-4 border-dashed border-zinc-900 rounded-lg p-6'>
 
               <p className='text-sm font-semibold text-justify font-robotoMono text-zinc-900 text-pretty xl:text-base'>
                 A dengue é uma doença febril aguda, sistêmica, dinâmica, debilitante e autolimitada.
@@ -79,7 +79,7 @@ export default function intro() {
                 A quase totalidade dos óbitos por dengue é evitável e depende, na maioria das vezes, da qualidade da assistência prestada e organização da rede de serviços de saúde.
               </p>
 
-              <a className="flex gap-2 w-fit font-robotoMono text-sm  font-semibold self-end bg-red-500
+              <a className="flex gap-2 w-fit font-robotoMono text-sm  font-semibold self-end bg-zinc-900
                rounded-lg py-1 px-4 text-white hover:bg-opacity-50 xl:text-base"
               href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/d/dengue">
                 <ArrowRight />Saiba mais
@@ -90,14 +90,14 @@ export default function intro() {
 
           </div>
 
-          <div className='flex bg-red-500 rounded-md p-2 items-center justify-center'>
+          <div className='flex bg-zinc-900 rounded-md p-2 items-center justify-center'>
 
             <h1 className=' text-base font-robotoMono font-semibold text-center'>Sintomas</h1>
 
           </div>
 
           <article className='flex w-full gap-4 text-base font-medium justify-center
-           flex-wrap rounded-md p-6 border-4 border-dashed border-red-500'>
+           flex-wrap rounded-md p-6 border-4 border-dashed border-zinc-900'>
             {sintomas()}
           </article>
 
@@ -105,7 +105,7 @@ export default function intro() {
 
         <section className='flex flex-col gap-6 items-center p-8 h-full rounded-lg bg-white xl:w-[35vw]'>
 
-          <div className='flex w-full bg-red-500 rounded-md gap-4 p-2 items-center justify-center'>
+          <div className='flex w-full bg-zinc-900 rounded-md gap-4 p-2 items-center justify-center'>
 
             <h1 className='itens-center font-robotoMono font-semibold text-base text-center'>Transmissor </h1>
             <Bug />
@@ -119,9 +119,9 @@ export default function intro() {
             height={200}
           />
 
-          <article className='flex flex-col justify-around gap-4 w-full h-full border-4 border-dashed border-red-500 text-zinc-900 rounded-lg p-6'>
+          <article className='flex flex-col justify-around gap-4 w-full h-full border-4 border-dashed border-zinc-900 text-zinc-900 rounded-lg p-6'>
 
-            <p className='text-sm text-justify font-semibold font-robotoMono  text-pretty lg:text-base'>
+            <p className='text-sm text-justify font-semibold font-robotoMono text-pretty lg:text-base'>
               O mosquito da dengue, <span className='text-red-500'>Aedes aegypti</span>, 
               é o principal vetor do vírus da dengue, que causa uma doença febril aguda e debilitante.
               Ele transmite o vírus ao picar uma pessoa infectada e, em seguida, picar outra.
@@ -131,7 +131,7 @@ export default function intro() {
             </p>
 
             <p className='text-red-500 font-robotoMono text-sm text-center font-semibold'>
-              Em caso de foco procure pela secretaria da saúde do seu município
+              Em caso de foco procure pela secretaria da saúde do seu município ⚠️
             </p>
 
           </article>
@@ -151,21 +151,21 @@ export default function intro() {
 
 export function sintomas() {
   const symptoms = [
-    "Febre alta",
-    "Náuseas constantes",
-    "Dor muscular",
-    "Dor articular",
-    "Dor abdominal",
-    "Dor ocular",
-    "Fraqueza geral",
-    "Vômitos frequentes",
-    "Perda de apetite",
+    "Febre alta 🤒",
+    "Náuseas constantes 🤢",
+    "Dor muscular 💪🏻",
+    "Dor articular 🦵🏻",
+    "Dor abdominal 😣",
+    "Dor ocular 👁️",
+    "Fraqueza geral 😪",
+    "Vômitos frequentes 🤮",
+    "Perda de apetite 🍖",
   ];
 
   return (
     <>
       {symptoms.map((symptom, index) => (
-        <p key={index} className="flex py-2 px-4 font-robotoMono text-center bg-red-500 rounded-md text-xs xl:text-base">
+        <p key={index} className="flex py-2 px-4 w-full justify-center font-robotoMono text-center bg-zinc-900 rounded-md text-xs xl:text-base sm:w-fit">
           {symptom}
         </p>
       ))}

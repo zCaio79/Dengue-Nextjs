@@ -47,50 +47,56 @@ export default function RegisterForm() {
 
     useEffect(() => {
         if (!selectedUF || !APIKEY) return;
-
+    
         setLoadingCities(true);
         setCities([]);
-
+    
         const controller = new AbortController();
         const { signal } = controller;
-
+    
+        let receivedText = ""; 
+    
         const fetchCities = async () => {
             try {
                 const response = await fetch(`${APIKEY}/localidades?uf=${selectedUF}`, { signal });
+                if (!response.ok) throw new Error("Erro ao buscar cidades");
+    
                 const reader = response.body?.getReader();
                 if (!reader) throw new Error("Erro ao obter stream de resposta");
-
-                let receivedText = "";
+    
                 const decoder = new TextDecoder();
-
+    
                 while (true) {
                     const { done, value } = await reader.read();
                     if (done) break;
-
+    
                     receivedText += decoder.decode(value, { stream: true });
-
+    
                     try {
                         const parsedData: ApiResponse = JSON.parse(receivedText);
                         if (parsedData.cidades) {
                             setCities(parsedData.cidades.slice(0));
                         }
                     } catch (error) {
-                        console.log("erro de continuidade: ", error)
+                        console.log(error)
                     }
                 }
             } catch (error) {
-                {
-                    console.error("Erro ao buscar cidades:", error);
-                }
+                console.error("Abort:", error);
+                
             } finally {
-                setLoadingCities(false);
+                if (!signal.aborted) {
+                    setLoadingCities(false);
+                    return
+                }
             }
         };
-
+    
         fetchCities();
-
+    
         return () => controller.abort();
     }, [selectedUF]);
+    
 
     const memoizedCities = useMemo(() => {
         return cities;
@@ -134,7 +140,11 @@ export default function RegisterForm() {
                 console.log("Cadastro realizado com sucesso!");
                 setIsLoading(false)
                 setIsRegistred(true)
+            }else{
+                setError("Email já cadastrado")
+                setIsLoading(false)
             }
+            return
 
         } catch (error) {
             console.log("Erro ao enviar dados:", error);
@@ -144,7 +154,7 @@ export default function RegisterForm() {
 
     return (
         <>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6 h-fit w-screen p-7 font-robotoMono text-red-500 font-semibold
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6 h-fit w-screen p-7 font-robotoMono text-zinc-900 font-semibold
              bg-white rounded-lg md:w-[650px]">
                 <h1 className="flex items-center self-center font-bold text-lg gap-2 mb-2">
                     <ChevronLeft className=" size-5" />Registro<ChevronRight className="size-5" />
@@ -158,9 +168,10 @@ export default function RegisterForm() {
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="p-2 border-2 border-dashed border-red-500 rounded-md text-zinc-900 text-sm outline-none"
+                            className="p-2 border-2 border-dashed border-zinc-900 rounded-md text-zinc-900 text-sm outline-none"
                             spellCheck="false"
                             placeholder="ex: Caio"
+                            autoComplete="off"
                             required
                         />
 
@@ -170,8 +181,9 @@ export default function RegisterForm() {
                             type="text"
                             value={subname}
                             onChange={(e) => setSubname(e.target.value)}
-                            className="p-2 border-2 border-dashed border-red-500 rounded-md text-zinc-900 text-sm outline-none"
+                            className="p-2 border-2 border-dashed border-zinc-900 rounded-md text-zinc-900 text-sm outline-none"
                             spellCheck="false"
+                            autoComplete="off"
                             placeholder="ex: Faria Mendes"
                             required
                         />
@@ -181,7 +193,7 @@ export default function RegisterForm() {
                             id="uf"
                             value={selectedUF}
                             onChange={(e) => setSelectedUF(e.target.value)}
-                            className="flex p-2 border-2 border-dashed border-red-500 rounded-md text-zinc-800 text-sm outline-none"
+                            className="flex p-2 border-2 border-dashed border-zinc-900 rounded-md text-zinc-800 text-sm outline-none"
                             required
                         >
                             <option value="">Selecione seu estado</option>
@@ -198,7 +210,7 @@ export default function RegisterForm() {
                                         id="cidade"
                                         value={selectedCity}
                                         onChange={(e) => setSelectedCity(e.target.value)}
-                                        className="flex w-full p-2 border-2 gap-1 border-dashed border-red-500 rounded-md text-zinc-800 text-sm outline-none over"
+                                        className="flex w-full p-2 border-2 gap-1 border-dashed border-zinc-900 rounded-md text-zinc-800 text-sm outline-none over"
                                         disabled={!selectedUF || memoizedCities.length === 0 || loadingCities}
                                         required
                                     >
@@ -221,7 +233,7 @@ export default function RegisterForm() {
                             id="email"
                             type="email"
                             onChange={(e) => setEmail(e.target.value)}
-                            className="p-2 border-2 border-dashed border-red-500 rounded-md text-zinc-900 text-sm outline-none"
+                            className="p-2 border-2 border-dashed border-zinc-900 rounded-md text-zinc-900 text-sm outline-none"
                             spellCheck="false"
                             placeholder="ex: caio@gmail.com"
                             required
@@ -232,7 +244,7 @@ export default function RegisterForm() {
                             <input
                                 id="password"
                                 type={showPassword ? "text" : "password"}
-                                className="p-2 pr-8 w-full border-2 border-dashed border-red-500 rounded-md text-zinc-900 text-sm outline-none"
+                                className="p-2 pr-8 w-full border-2 border-dashed border-zinc-900 rounded-md text-zinc-900 text-sm outline-none"
                                 spellCheck="false"
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
@@ -251,7 +263,7 @@ export default function RegisterForm() {
                             <input
                                 id="password-confirm"
                                 type={showPassword ? "text" : "password"}
-                                className="p-2 pr-8 w-full border-2 border-dashed border-red-500 rounded-md text-zinc-900 text-sm outline-none"
+                                className="p-2 pr-8 w-full border-2 border-dashed border-zinc-900 rounded-md text-zinc-900 text-sm outline-none"
                                 spellCheck="false"
                                 onChange={(e) => setPasswordConfirm(e.target.value)}
                                 required
@@ -283,7 +295,7 @@ export default function RegisterForm() {
                     </button>
                 }
 
-                <hr className="border-t-2 border-dashed border-red-500" />
+                <hr className="border-t-2 border-dashed border-zinc-900" />
 
                 <Link href="/login" className="text-xs self-center underline text-red-500 hover:text-red-400">Já possui uma conta?</Link>
             </form>

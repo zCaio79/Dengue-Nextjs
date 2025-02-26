@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Roboto_Mono } from "next/font/google";
+import 'leaflet/dist/leaflet.css';
 import "./globals.css";
 
 const robotoMono = Roboto_Mono({
@@ -33,6 +34,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br" className={robotoMono.variable}>
        <head>
+        
         </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
