@@ -21,7 +21,7 @@ export default function DateFilterBtn() {
 
             
             {showDatePicker && (
-                <div className="absolute z-50 top-full left-0 mt-2 bg-white border-2 border-zinc-300 flex items-center shadow-lg rounded-lg p-3 z-10">
+                <div className="absolute z-50 top-full left-0 mt-2 bg-white border-2 border-zinc-300 flex items-center shadow-lg rounded-lg p-3">
                     <DatePicker
                         maxDate={new Date()}
                         selected={selectedDate}

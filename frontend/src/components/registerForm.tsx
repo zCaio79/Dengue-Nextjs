@@ -105,6 +105,7 @@ export default function RegisterForm() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setShowPassword(false)
         setError(null)
         if (password !== passwordConfirm) {
             setError("Senhas não correspondem!");

@@ -37,24 +37,26 @@ export default function MapForm({ position, setPosition }: MapFormProps) {
 
     if (!isClient) {
         return (
-        <div className="flex w-full h-full rounded-lg justify-center items-center bg-white">
-            <Image unoptimized src="/loading.svg" alt="loading" width={50} height={50} />
-        </div>
-        )
+            <div className="flex w-full h-full rounded-lg justify-center items-center bg-white">
+                <Image unoptimized src="/loading.svg" alt="loading" width={50} height={50} />
+            </div>
+        );
     }
+
     return (
         <div className="flex w-full h-[40vh] rounded-md items-center bg-zinc-900 p-2 flex-col gap-2">
-            <p className="text-sm font-semibold text-white">Selecione sua Localização</p>
+            <p className="text-sm text-center font-semibold text-white">Selecione sua Localização</p>
             <MapContainer
-                center={[-24.2485, -51.6755]}
+                center={position ? [position.lat, position.lng] : [-24.2485, -51.6755]}
                 zoom={13}
                 className="h-full w-full rounded-md"
                 markerZoomAnimation={false}
                 zoomControl={false}
+                whenReady={() => console.log("Mapa carregado!")}
             >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 <LocationMarker />
             </MapContainer>
         </div>
-    )
+    );
 }

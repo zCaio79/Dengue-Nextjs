@@ -19,6 +19,8 @@ export default function LoginForm() {
 
     const handleSubmitLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+        
+        setShowPassword(false)
 
         setError(null)
 

@@ -54,6 +54,7 @@ const Map = (props: MapProps) => {
       className="h-full w-full z-40"
       markerZoomAnimation={false}
       zoomControl={false}
+      whenReady={() => console.log("Mapa carregado!")}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
