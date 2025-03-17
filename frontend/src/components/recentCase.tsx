@@ -10,7 +10,7 @@ interface RecentCaseProps {
 
 export default function RecentCase(props : RecentCaseProps) {
     return (
-        <div className='flex font-robotoMono gap-6 font-semibold text-zinc-900 border-2 border-red-500 border-dashed rounded-lg p-3 items-center justify-between'>
+        <div className='flex font-robotoMono gap-6 font-semibold text-zinc-900 border-2 border-red-300 border-dashed rounded-lg p-3 items-center justify-between'>
 
             <div className="flex text-sm gap-4">
                 <p>{props.rua}</p>

@@ -12,16 +12,23 @@ export default function NewcaseForm() {
   const [exame, setExame] = useState("");
   const [gravidade, setGravidade] = useState("");
   const [position, setPosition] = useState<LatLng | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   function handleNewCase(event: React.FormEvent) {
     event.preventDefault();
+    setError(null);
+    
+    if(!position){
+      setError("Selecione uma localização no mapa.");
+      return;
+    }
     console.log("Novo caso registrado:", { position, gravidade, exame });
   }
 
   return (
     <form
       onSubmit={handleNewCase}
-      className="flex flex-col gap-4 w-full py-6 px-8 font-robotoMono
+      className="flex flex-col gap-6 w-full py-6 px-8 font-robotoMono
       text-zinc-900 font-semibold bg-white rounded-lg shadow-md
       md:w-[45%]"
     >
@@ -31,7 +38,7 @@ export default function NewcaseForm() {
         <ChevronRight className="size-5" />
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-2">
         <div className="flex flex-col gap-8 md:gap-16">
           <fieldset className="flex flex-col gap-2">
             <legend className="text-sm font-semibold mb-4">Caso confirmado via Exame?</legend>
@@ -101,6 +108,8 @@ export default function NewcaseForm() {
 
         <MapForm position={position} setPosition={setPosition} />
       </div>
+
+      {error && <div className="text-xs w-full text-center bg-red-500 text-white rounded-md py-1">{error}</div>}
 
       <hr className="border-t-2 border-dashed border-zinc-900" />
 

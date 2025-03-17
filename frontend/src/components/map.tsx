@@ -1,12 +1,13 @@
-'use client'
+'use client';
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import Image from "next/image";
-import L from "leaflet";
-
-import { HeartPulse } from "lucide-react";
-
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+import { useEffect } from 'react';
+import 'leaflet/dist/leaflet.css';
+import Image from 'next/image';
+import L from 'leaflet';
+import 'leaflet.markercluster';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
 type Caso = {
   id: number;
@@ -15,10 +16,7 @@ type Caso = {
   nome: string;
 };
 
-type Centro = [
-  latitude : number,
-  longitude : number
-];
+type Centro = [number, number];
 
 type MapProps = {
   casos: Caso[];
@@ -26,51 +24,98 @@ type MapProps = {
   center: Centro;
 };
 
+const ClusterMarkers = ({ casos }: { casos: Caso[] }) => {
+  const map = useMap();
 
-const Map = (props: MapProps) => {
+  const agroupDistance = 45;
 
-  const casos = props.casos;
+  useEffect(() => {
+    if (!map) return;
 
-  if(!casos || props.isLoading){
+    const markerCluster = L.markerClusterGroup({
+      maxClusterRadius: agroupDistance,
+      iconCreateFunction: (cluster: L.MarkerCluster) => {
+        const count = cluster.getChildCount();
+        let size = '30px';
+        let color = '#aff957';
+
+        if (count > 30) {
+          size = '50px';
+          color = '#f95757';
+        } else if (count > 20) {
+          size = '45px';
+          color = '#f9b457';
+        }
+
+        return L.divIcon({
+          html: `<div style="background-color: ${color}; width: ${size}; height: ${size}; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: black; font-weight: bold; font-size: 12px;">${count}</div>`,
+          className: 'leaflet-marker-cluster-custom',
+          iconSize: new L.Point(parseInt(size), parseInt(size)),
+        });
+      },
+    });
+
+    casos.forEach((caso) => {
+      const marker = L.marker([caso.latitude, caso.longitude], {
+        icon: new L.Icon({
+          iconUrl: '/icon.png',
+          iconSize: [30, 30],
+          iconAnchor: [15, 30],
+          popupAnchor: [0, -30],
+        }),
+      });
+
+      marker.bindPopup(
+        `<div class='font-robotoMono font-semibold flex gap-2 items-center'>
+          ${caso.nome} 
+        </div>`,
+        {
+          closeButton: false,
+        }
+      );
+
+      markerCluster.addLayer(marker);
+    });
+
+    map.addLayer(markerCluster);
+
+    return () => {
+      map.removeLayer(markerCluster);
+    };
+  }, [map, casos]);
+
+  return null;
+};
+
+const Map = ({ casos, isLoading, center }: MapProps) => {
+
+  if (isLoading) {
     return (
       <div className="flex w-full h-full rounded-lg justify-center items-center bg-white">
         <Image unoptimized src="/loading.svg" alt="loading" width={50} height={50} />
       </div>
-    )
+    );
   }
-
-  const icon = new L.Icon({
-    iconUrl:"/icon.png",
-    iconSize: [28, 28],
-    iconAnchor: [14, 28],
-    popupAnchor: [0, -28]
-  });
-  
 
   return (
     <MapContainer
-      center={props.center}
+      center={center}
       zoom={13}
       className="h-full w-full z-40"
-      markerZoomAnimation={false}
+      markerZoomAnimation={true}
       zoomControl={false}
+      maxZoom={19}
+      minZoom={5}
       whenReady={() => console.log("Mapa carregado!")}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution="https://www.openstreetmap.org/copyright"
+        attribution="©OpenStreetMap"
+        noWrap={true}
       />
+      <ClusterMarkers casos={casos} />
+    </MapContainer>
 
-      {casos.map((caso) => (
-
-        <Marker key={caso.id} position={[caso.latitude, caso.longitude]} icon={icon}>
-          <Popup closeButton={false} className="font-robotoMono font-semibold">
-            <span className="flex gap-2 items-center">{caso.nome} <HeartPulse className="size-5 text-red-500"/></span>
-            </Popup>
-        </Marker>
-
-      ))}
-    </MapContainer >
   );
 };
 

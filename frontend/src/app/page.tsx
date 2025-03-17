@@ -71,7 +71,7 @@ export default function intro() {
 
             </article>
 
-            <article className='flex flex-col gap-4 w-96 justify-around border-4 border-dashed border-zinc-900 rounded-lg p-6'>
+            <article className='flex flex-col gap-4 w-96 justify-around border-4 border-dashed border-zinc-500 rounded-lg p-6'>
 
               <p className='text-sm font-semibold text-justify font-robotoMono text-zinc-900 text-pretty xl:text-base'>
                 A dengue é uma doença febril aguda, sistêmica, dinâmica, debilitante e autolimitada.
@@ -97,7 +97,7 @@ export default function intro() {
           </div>
 
           <article className='flex w-full gap-4 text-base font-medium justify-center
-           flex-wrap rounded-md p-6 border-4 border-dashed border-zinc-900'>
+           flex-wrap rounded-md p-6 border-4 border-dashed border-zinc-500'>
             {sintomas()}
           </article>
 
@@ -119,7 +119,7 @@ export default function intro() {
             height={200}
           />
 
-          <article className='flex flex-col justify-around gap-4 w-full h-full border-4 border-dashed border-zinc-900 text-zinc-900 rounded-lg p-6'>
+          <article className='flex flex-col justify-around gap-4 w-full h-full border-4 border-dashed border-zinc-500 text-zinc-900 rounded-lg p-6'>
 
             <p className='text-sm text-justify font-semibold font-robotoMono text-pretty lg:text-base'>
               O mosquito da dengue, <span className='text-red-500'>Aedes aegypti</span>, 

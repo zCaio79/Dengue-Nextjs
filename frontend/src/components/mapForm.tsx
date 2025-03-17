@@ -50,9 +50,10 @@ export default function MapForm({ position, setPosition }: MapFormProps) {
                 center={position ? [position.lat, position.lng] : [-24.2485, -51.6755]}
                 zoom={13}
                 className="h-full w-full rounded-md"
-                markerZoomAnimation={false}
+                markerZoomAnimation={true}
                 zoomControl={false}
                 whenReady={() => console.log("Mapa carregado!")}
+                key={position ? position.lat + "," + position.lng : "default"}
             >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 <LocationMarker />

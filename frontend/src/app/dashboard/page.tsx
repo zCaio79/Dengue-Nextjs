@@ -80,7 +80,7 @@ export default function Dashboard() {
                     <div className="relative flex w-full font-robotoMono font-medium text-sm">
 
                         <input type="text" className="flex flex-grow w-full py-2 px-3 pr-8 border-2 border-dashed text-zinc-900
-                         border-red-500 rounded-xl outline-none" placeholder="Procurar localização" />
+                         border-red-400 rounded-xl outline-none" placeholder="Procurar localização" />
                         <button type="button" className="absolute inset-y-0 right-3 flex items-center justify-center outline-none">
                             <Search className="size-5 text-zinc-900" />
                         </button>
@@ -109,7 +109,39 @@ export default function Dashboard() {
                         <Map
                             casos={[
                                 { id: 1, latitude: -24.248, longitude: -51.675, nome: "Local 1" },
-                                { id: 2, latitude: -24.260, longitude: -51.680, nome: "Local 2" }
+                                { id: 2, latitude: -24.260, longitude: -51.680, nome: "Local 2" },
+                                { id: 3, latitude: -24.275, longitude: -51.695, nome: "Local 3" },
+                                { id: 4, latitude: -24.285, longitude: -51.705, nome: "Local 4" },
+                                { id: 5, latitude: -24.290, longitude: -51.710, nome: "Local 5" },
+                                { id: 6, latitude: -24.295, longitude: -51.715, nome: "Local 6" },
+                                { id: 7, latitude: -24.300, longitude: -51.720, nome: "Local 7" },
+                                { id: 8, latitude: -24.305, longitude: -51.725, nome: "Local 8" },
+                                { id: 9, latitude: -24.310, longitude: -51.730, nome: "Local 9" },
+                                { id: 10, latitude: -24.315, longitude: -51.735, nome: "Local 10" },
+                                { id: 11, latitude: -24.320, longitude: -51.740, nome: "Local 11" },
+                                { id: 12, latitude: -24.325, longitude: -51.745, nome: "Local 12" },
+                                { id: 13, latitude: -24.330, longitude: -51.750, nome: "Local 13" },
+                                { id: 14, latitude: -24.335, longitude: -51.755, nome: "Local 14" },
+                                { id: 15, latitude: -24.340, longitude: -51.760, nome: "Local 15" },
+                                { id: 16, latitude: -24.345, longitude: -51.765, nome: "Local 16" },
+                                { id: 17, latitude: -24.350, longitude: -51.770, nome: "Local 17" },
+                                { id: 18, latitude: -25.355, longitude: -51.775, nome: "Local 18" },
+                                { id: 19, latitude: -25.360, longitude: -51.780, nome: "Local 19" },
+                                { id: 20, latitude: -25.365, longitude: -51.785, nome: "Local 20" },
+                                { id: 21, latitude: -25.370, longitude: -51.790, nome: "Local 21" },
+                                { id: 22, latitude: -24.375, longitude: -51.795, nome: "Local 22" },
+                                { id: 23, latitude: -24.380, longitude: -51.800, nome: "Local 23" },
+                                { id: 24, latitude: -24.385, longitude: -51.805, nome: "Local 24" },
+                                { id: 25, latitude: -24.390, longitude: -51.810, nome: "Local 25" },
+                                { id: 26, latitude: -25.355, longitude: -51.775, nome: "Local 18" },
+                                { id: 27, latitude: -25.360, longitude: -51.780, nome: "Local 19" },
+                                { id: 28, latitude: -25.365, longitude: -51.785, nome: "Local 20" },
+                                { id: 29, latitude: -25.370, longitude: -51.790, nome: "Local 21" },
+                                { id: 30, latitude: -24.375, longitude: -51.795, nome: "Local 22" },
+                                { id: 31, latitude: -24.380, longitude: -51.800, nome: "Local 23" },
+                                { id: 32, latitude: -24.385, longitude: -51.805, nome: "Local 24" },
+                                { id: 33, latitude: -24.390, longitude: -51.810, nome: "Local 25" }
+                                
                             ]}
                             isLoading={false}
                             center={[-24.2485, -51.6755]}
