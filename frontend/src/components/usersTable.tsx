@@ -16,7 +16,7 @@ type UsersTableProps = {
 
 export default function UsersTable({ users }: UsersTableProps) {
     return (
-        <div className="flex w-full h-full bg-zinc-100 border-2 py-4 px-4 rounded-lg overflow-scroll">
+        <div className="flex w-full h-full bg-zinc-100 border-2 py-4 px-4 rounded-lg overflow-y-scroll">
             <table className="w-full border-collapse text-zinc-900 font-robotoMono md:px-6">
                 <thead>
                     <tr className="text-xs md:text-sm">

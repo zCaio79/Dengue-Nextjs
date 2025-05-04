@@ -6,13 +6,84 @@ import { ArrowDown, ArrowLeft, Search, User2Icon, X, Plus } from "lucide-react";
 import Link from 'next/link';
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { Caso } from "@/components/map";
+
+const APIKEY = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Dashboard() {
+
+    const [casos, setCasos] = useState<Caso[]>([]);
+
+    useEffect(() => {
+        if (!APIKEY) return;
+      
+        const controller = new AbortController();
+        const { signal } = controller;
+      
+        let receivedText = "";
+        const decoder = new TextDecoder();
+      
+        const fetchCasosStream = async () => {
+          try {
+            const response = await fetch(`${APIKEY}/casos`, { signal });
+            if (!response.ok) throw new Error("Erro ao buscar casos");
+      
+            const reader = response.body?.getReader();
+            if (!reader) throw new Error("Erro ao obter o stream de resposta");
+      
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+      
+              
+              receivedText += decoder.decode(value, { stream: true });
+      
+              
+              const linhas = receivedText.split('\n');
+              
+              receivedText = linhas.pop() || "";
+      
+              const novosCasos: Caso[] = [];
+      
+              for (const linha of linhas) {
+                try {
+                  const caso: Caso = JSON.parse(linha);
+                  
+                  if (
+                    typeof caso.latitude === 'number' &&
+                    typeof caso.longitude === 'number' &&
+                    typeof caso.id === 'number'
+                  ) {
+                    novosCasos.push(caso);
+                  }
+                } catch (e) {
+                  console.log("Erro ao parsear linha:", linha, e);
+                }
+              }
+      
+              if (novosCasos.length > 0) {
+                setCasos((prev) => [...prev, ...novosCasos]);
+              }
+            }
+      
+          } catch (error) {
+            if (!signal.aborted) {
+              console.error("Erro na stream de casos:", error);
+            }
+          }
+        };
+      
+        fetchCasosStream();
+      
+        return () => controller.abort();
+      }, []);
+      
     const Map = dynamic(() => import("@/components/map"), { ssr: false });
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
+
         if (document.cookie.includes("token")) {
             setIsLoggedIn(true);
         }
@@ -68,7 +139,7 @@ export default function Dashboard() {
 
                 <div className="flex h-fit flex-col-reverse w-full gap-4 lg:w-7/12 md:flex-row md:itens-center lg:h-12">
 
-                    <div className="flex flex-wrap flex-row-reverse gap-2 w-full justify-end itens-center md:gap-4 md:flex-row md:justify-center">
+                    <div className="flex flex-row-reverse gap-2 w-full justify-center itens-center md:gap-4 lg:flex-row">
                         <Link href="/newcase" className="flex items-center gap-2 h-full w-fit text-nowrap text-xs bg-red-500 rounded-lg px-3
                         py-2 font-bold font-robotoMono text-white hover:bg-red-400 sm:text-sm">
                             Adicionar Caso <Plus className="size-5" />
@@ -107,42 +178,7 @@ export default function Dashboard() {
                     <article className='flex justify-center items-center w-full h-[75vh] flex-col lg:h-full'>
 
                         <Map
-                            casos={[
-                                { id: 1, latitude: -24.248, longitude: -51.675, nome: "Local 1" },
-                                { id: 2, latitude: -24.260, longitude: -51.680, nome: "Local 2" },
-                                { id: 3, latitude: -24.275, longitude: -51.695, nome: "Local 3" },
-                                { id: 4, latitude: -24.285, longitude: -51.705, nome: "Local 4" },
-                                { id: 5, latitude: -24.290, longitude: -51.710, nome: "Local 5" },
-                                { id: 6, latitude: -24.295, longitude: -51.715, nome: "Local 6" },
-                                { id: 7, latitude: -24.300, longitude: -51.720, nome: "Local 7" },
-                                { id: 8, latitude: -24.305, longitude: -51.725, nome: "Local 8" },
-                                { id: 9, latitude: -24.310, longitude: -51.730, nome: "Local 9" },
-                                { id: 10, latitude: -24.315, longitude: -51.735, nome: "Local 10" },
-                                { id: 11, latitude: -24.320, longitude: -51.740, nome: "Local 11" },
-                                { id: 12, latitude: -24.325, longitude: -51.745, nome: "Local 12" },
-                                { id: 13, latitude: -24.330, longitude: -51.750, nome: "Local 13" },
-                                { id: 14, latitude: -24.335, longitude: -51.755, nome: "Local 14" },
-                                { id: 15, latitude: -24.340, longitude: -51.760, nome: "Local 15" },
-                                { id: 16, latitude: -24.345, longitude: -51.765, nome: "Local 16" },
-                                { id: 17, latitude: -24.350, longitude: -51.770, nome: "Local 17" },
-                                { id: 18, latitude: -25.355, longitude: -51.775, nome: "Local 18" },
-                                { id: 19, latitude: -25.360, longitude: -51.780, nome: "Local 19" },
-                                { id: 20, latitude: -25.365, longitude: -51.785, nome: "Local 20" },
-                                { id: 21, latitude: -25.370, longitude: -51.790, nome: "Local 21" },
-                                { id: 22, latitude: -24.375, longitude: -51.795, nome: "Local 22" },
-                                { id: 23, latitude: -24.380, longitude: -51.800, nome: "Local 23" },
-                                { id: 24, latitude: -24.385, longitude: -51.805, nome: "Local 24" },
-                                { id: 25, latitude: -24.390, longitude: -51.810, nome: "Local 25" },
-                                { id: 26, latitude: -25.355, longitude: -51.775, nome: "Local 18" },
-                                { id: 27, latitude: -25.360, longitude: -51.780, nome: "Local 19" },
-                                { id: 28, latitude: -25.365, longitude: -51.785, nome: "Local 20" },
-                                { id: 29, latitude: -25.370, longitude: -51.790, nome: "Local 21" },
-                                { id: 30, latitude: -24.375, longitude: -51.795, nome: "Local 22" },
-                                { id: 31, latitude: -24.380, longitude: -51.800, nome: "Local 23" },
-                                { id: 32, latitude: -24.385, longitude: -51.805, nome: "Local 24" },
-                                { id: 33, latitude: -24.390, longitude: -51.810, nome: "Local 25" }
-                                
-                            ]}
+                            casos={casos}
                             isLoading={false}
                             center={[-24.2485, -51.6755]}
                         />

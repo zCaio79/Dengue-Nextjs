@@ -9,7 +9,7 @@ import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
-type Caso = {
+export type Caso = {
   id: number;
   latitude: number;
   longitude: number;

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { LatLng } from "leaflet";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import Cookies from "js-cookie";
 
 const MapForm = dynamic(() => import("@/components/mapForm"), { ssr: false });
 
@@ -14,15 +15,51 @@ export default function NewcaseForm() {
   const [position, setPosition] = useState<LatLng | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  function handleNewCase(event: React.FormEvent) {
+  async function handleNewCase(event: React.FormEvent) {
     event.preventDefault();
     setError(null);
-    
-    if(!position){
+  
+    if (!position) {
       setError("Selecione uma localização no mapa.");
       return;
     }
-    console.log("Novo caso registrado:", { position, gravidade, exame });
+  
+    try {
+      const token = Cookies.get("token"); // substitua pelo nome exato do seu cookie
+      if (!token) {
+        setError("Token não encontrado. Faça login novamente.");
+        return;
+      }
+  
+      const body = {
+        latitude: position.lat,
+        longitude: position.lng,
+        confirmado: exame === "positivo",
+        gravidade: gravidade,
+      };
+  
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/casos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
+  
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Erro ao registrar caso.");
+      }
+  
+      console.log("Caso registrado com sucesso!");
+      alert("Caso registrado com sucesso!");
+      window.location.href = "/dashboard"
+      
+    } catch (err) {
+      setError(""+err);
+      console.error(err);
+    }
   }
 
   return (
@@ -85,7 +122,7 @@ export default function NewcaseForm() {
                 <input
                   type="radio"
                   name="gravidade"
-                  value="moderada"
+                  value="moderado"
                   onChange={(e) => setGravidade(e.target.value)}
                   required
                 />

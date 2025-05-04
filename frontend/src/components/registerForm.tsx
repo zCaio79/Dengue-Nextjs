@@ -142,7 +142,8 @@ export default function RegisterForm() {
                 setIsLoading(false)
                 setIsRegistred(true)
             }else{
-                setError("Email já cadastrado")
+                console.log(response)
+                setError("Erro ao realizar cadastro...")
                 setIsLoading(false)
             }
             return
