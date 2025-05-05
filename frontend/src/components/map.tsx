@@ -11,9 +11,13 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
 export type Caso = {
   id: number;
-  latitude: number;
-  longitude: number;
-  nome: string;
+  latitude: number | string;
+  longitude: number | string;
+  gravidade: string;
+  confirmado: boolean;
+  data_registro: string;
+  usuario_nome: string;
+  [key: string]: unknown;
 };
 
 type Centro = [number, number];
@@ -27,37 +31,20 @@ type MapProps = {
 const ClusterMarkers = ({ casos }: { casos: Caso[] }) => {
   const map = useMap();
 
-  const agroupDistance = 45;
-
   useEffect(() => {
-    if (!map) return;
+    if (!Array.isArray(casos) || casos.length === 0) {
+      console.log("casos n é um array de Caso")
+      return;
+    }
 
-    const markerCluster = L.markerClusterGroup({
-      maxClusterRadius: agroupDistance,
-      iconCreateFunction: (cluster: L.MarkerCluster) => {
-        const count = cluster.getChildCount();
-        let size = '30px';
-        let color = '#aff957';
+    const clusterGroup = L.markerClusterGroup();
 
-        if (count > 30) {
-          size = '50px';
-          color = '#f95757';
-        } else if (count > 20) {
-          size = '45px';
-          color = '#f9b457';
-        }
+    for (const caso of casos) {
+      const lat = parseFloat(String(caso.latitude));
+      const lng = parseFloat(String(caso.longitude));
 
-        return L.divIcon({
-          html: `<div style="background-color: ${color}; width: ${size}; height: ${size}; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: black; font-weight: bold; font-size: 12px;">${count}</div>`,
-          className: 'leaflet-marker-cluster-custom',
-          iconSize: new L.Point(parseInt(size), parseInt(size)),
-        });
-      },
-    });
-
-    casos.forEach((caso) => {
-      const marker = L.marker([caso.latitude, caso.longitude], {
-        icon: new L.Icon({
+      const marker = L.marker([lat, lng], {
+        icon: L.icon({
           iconUrl: '/icon.png',
           iconSize: [30, 30],
           iconAnchor: [15, 30],
@@ -66,21 +53,20 @@ const ClusterMarkers = ({ casos }: { casos: Caso[] }) => {
       });
 
       marker.bindPopup(
-        `<div class='font-robotoMono font-semibold flex gap-2 items-center'>
-          ${caso.nome} 
+        `<div>Gravidade: ${caso.gravidade} <br/> Status: 
+        ${caso.confirmado ? "Confirmado" : "Não confirmado"} <br/>
+        ${caso.data_registro}
         </div>`,
-        {
-          closeButton: false,
-        }
+        { closeButton: false }
       );
 
-      markerCluster.addLayer(marker);
-    });
+      clusterGroup.addLayer(marker);
+    }
 
-    map.addLayer(markerCluster);
+    map.addLayer(clusterGroup);
 
     return () => {
-      map.removeLayer(markerCluster);
+      map.removeLayer(clusterGroup);
     };
   }, [map, casos]);
 
@@ -88,7 +74,6 @@ const ClusterMarkers = ({ casos }: { casos: Caso[] }) => {
 };
 
 const Map = ({ casos, isLoading, center }: MapProps) => {
-
   if (isLoading) {
     return (
       <div className="flex w-full h-full rounded-lg justify-center items-center bg-white">
@@ -102,20 +87,17 @@ const Map = ({ casos, isLoading, center }: MapProps) => {
       center={center}
       zoom={13}
       className="h-full w-full z-40"
-      markerZoomAnimation={true}
       zoomControl={false}
       maxZoom={19}
       minZoom={5}
-      whenReady={() => console.log("Mapa carregado!")}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="©OpenStreetMap"
-        noWrap={true}
+        noWrap
       />
-      <ClusterMarkers casos={casos} />
+      <ClusterMarkers casos={Array.isArray(casos) ? casos : []} />
     </MapContainer>
-
   );
 };
 

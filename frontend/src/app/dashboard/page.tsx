@@ -11,79 +11,50 @@ import { Caso } from "@/components/map";
 const APIKEY = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Dashboard() {
-
     const [casos, setCasos] = useState<Caso[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [center, setCenter] = useState<[number, number]>([-24.2485, -51.6755]);
+    const [search, setSearch] = useState("");
+
+    const buscarCoordenadas = async (query: string) => {
+        if (!query.trim()) {
+            return;
+        }
+
+        try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+            const data = await res.json();
+            if (data.length > 0) {
+                const { lat, lon } = data[0];
+                setCenter([parseFloat(lat), parseFloat(lon)]);
+            } else {
+                return
+            }
+        } catch (err) {
+            console.error("Erro ao buscar localização:", err);
+        }
+    };
 
     useEffect(() => {
-        if (!APIKEY) return;
-      
-        const controller = new AbortController();
-        const { signal } = controller;
-      
-        let receivedText = "";
-        const decoder = new TextDecoder();
-      
-        const fetchCasosStream = async () => {
-          try {
-            const response = await fetch(`${APIKEY}/casos`, { signal });
-            if (!response.ok) throw new Error("Erro ao buscar casos");
-      
-            const reader = response.body?.getReader();
-            if (!reader) throw new Error("Erro ao obter o stream de resposta");
-      
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) break;
-      
-              
-              receivedText += decoder.decode(value, { stream: true });
-      
-              
-              const linhas = receivedText.split('\n');
-              
-              receivedText = linhas.pop() || "";
-      
-              const novosCasos: Caso[] = [];
-      
-              for (const linha of linhas) {
-                try {
-                  const caso: Caso = JSON.parse(linha);
-                  
-                  if (
-                    typeof caso.latitude === 'number' &&
-                    typeof caso.longitude === 'number' &&
-                    typeof caso.id === 'number'
-                  ) {
-                    novosCasos.push(caso);
-                  }
-                } catch (e) {
-                  console.log("Erro ao parsear linha:", linha, e);
-                }
-              }
-      
-              if (novosCasos.length > 0) {
-                setCasos((prev) => [...prev, ...novosCasos]);
-              }
+        const fetchCasos = async () => {
+            try {
+                const res = await fetch(`${APIKEY}/casos`);
+                const { casos } = await res.json();
+                setCasos(casos);
+                setIsLoading(false);
+            } catch (err) {
+                console.error('Erro ao buscar casos:', err);
             }
-      
-          } catch (error) {
-            if (!signal.aborted) {
-              console.error("Erro na stream de casos:", error);
-            }
-          }
         };
-      
-        fetchCasosStream();
-      
-        return () => controller.abort();
-      }, []);
-      
+
+        fetchCasos();
+    }, []);
+
     const Map = dynamic(() => import("@/components/map"), { ssr: false });
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-
         if (document.cookie.includes("token")) {
             setIsLoggedIn(true);
         }
@@ -97,7 +68,6 @@ export default function Dashboard() {
     const handleLogout = () => {
         document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
         window.location.href = "/";
-
     }
 
     return (
@@ -107,16 +77,13 @@ export default function Dashboard() {
 
                 <div className="flex items-center h-fit justify-center gap-2 text-zinc-900 lg:h-12">
 
-
                     <nav className="flex items-center gap-4">
 
                         <Link href="/" className="flex text-sm bg-white rounded-full p-2 font-bold font-robotoMono text-red-500 hover:bg-red-500 hover:text-white">
-
                             <ArrowLeft />
-
                         </Link>
 
-                        {isLoggedIn ?
+                        {isLoggedIn ? (
                             <>
                                 <Link href="#" className="flex items-center text-nowrap gap-2 w-fit text-xs bg-red-500 rounded-lg px-3 py-2 font-bold font-robotoMono text-white hover:bg-red-400 sm:text-sm">
                                     <User2Icon className="size-5" />
@@ -127,12 +94,12 @@ export default function Dashboard() {
                                     <X className="size-5" />
                                 </button>
                             </>
-                            :
+                        ) : (
                             <Link href="/login" className="flex h-full items-center gap-2 w-fit text-xs bg-red-500 rounded-lg px-3 py-2 font-bold font-robotoMono text-white hover:bg-red-400 sm:text-sm">
                                 <User2Icon />
                                 Convidado
                             </Link>
-                        }
+                        )}
 
                     </nav>
                 </div>
@@ -149,15 +116,26 @@ export default function Dashboard() {
                     </div>
 
                     <div className="relative flex w-full font-robotoMono font-medium text-sm">
+                        <input
+                            type="text"
+                            className="flex flex-grow w-full py-2 px-3 pr-8 border-2 border-dashed text-zinc-900 border-red-400 rounded-xl outline-none"
+                            placeholder="Procurar localização"
+                            onChange={(e) => setSearch(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    buscarCoordenadas(search);
+                                }
+                            }}
+                            aria-label="Campo de busca de localização"
+                        />
 
-                        <input type="text" className="flex flex-grow w-full py-2 px-3 pr-8 border-2 border-dashed text-zinc-900
-                         border-red-400 rounded-xl outline-none" placeholder="Procurar localização" />
-                        <button type="button" className="absolute inset-y-0 right-3 flex items-center justify-center outline-none">
+                        <button
+                            type="button"
+                            onClick={() => buscarCoordenadas(search)}
+                            className="absolute inset-y-0 right-3 flex items-center justify-center outline-none">
                             <Search className="size-5 text-zinc-900" />
                         </button>
-
                     </div>
-
 
                 </div>
 
@@ -166,29 +144,23 @@ export default function Dashboard() {
             <main className="flex flex-col-reverse gap-2 w-full h-full justify-between overflow-hidden lg:flex-row lg:gap-8 md:flex-col">
 
                 <section className="flex flex-col gap-4 w-full min-w-fit p-4 h-[70vh] rounded-lg bg-white lg:w-2/5 lg:h-full h-lg:w-full">
-
                     <RecentCases />
-
                 </section>
 
                 <ArrowDown className="flex self-center text-white lg:hidden h-md:hidden" />
 
                 <section className="flex w-full rounded-lg overflow-hidden bg-white">
-
                     <article className='flex justify-center items-center w-full h-[75vh] flex-col lg:h-full'>
-
                         <Map
                             casos={casos}
-                            isLoading={false}
-                            center={[-24.2485, -51.6755]}
+                            isLoading={isLoading}
+                            center={center}
                         />
-
                     </article>
-
                 </section>
 
             </main>
 
-        </div >
-    )
+        </div>
+    );
 }

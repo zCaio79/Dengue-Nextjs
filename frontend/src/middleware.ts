@@ -8,9 +8,9 @@ export function middleware(req: NextRequest) {
   if (token && (req.nextUrl.pathname === "/login" || req.nextUrl.pathname === "/register")) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
-  //if (!token && req.nextUrl.pathname === "/newcase"){
-    //return NextResponse.redirect(new URL("/login", req.url));
-  //}
+  if (!token && req.nextUrl.pathname === "/newcase"){
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
 
   return NextResponse.next();
 }

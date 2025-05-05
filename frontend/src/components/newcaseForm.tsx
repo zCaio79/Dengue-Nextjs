@@ -5,15 +5,27 @@ import { useState } from "react";
 import { LatLng } from "leaflet";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import Cookies from "js-cookie";
+
 
 const MapForm = dynamic(() => import("@/components/mapForm"), { ssr: false });
 
 export default function NewcaseForm() {
-  const [exame, setExame] = useState("");
+  const [exame, setExame] = useState<boolean>(false);
   const [gravidade, setGravidade] = useState("");
   const [position, setPosition] = useState<LatLng | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  function getTokenFromCookie() {
+    const cookieString = document.cookie;
+    const cookies = cookieString.split("; ");
+
+    for (const cookie of cookies) {
+        const [name, value] = cookie.split("=");
+        if (name === "token") return value;
+    }
+
+    return null;
+}
 
   async function handleNewCase(event: React.FormEvent) {
     event.preventDefault();
@@ -25,7 +37,7 @@ export default function NewcaseForm() {
     }
   
     try {
-      const token = Cookies.get("token"); // substitua pelo nome exato do seu cookie
+      const token = getTokenFromCookie();
       if (!token) {
         setError("Token não encontrado. Faça login novamente.");
         return;
@@ -34,11 +46,11 @@ export default function NewcaseForm() {
       const body = {
         latitude: position.lat,
         longitude: position.lng,
-        confirmado: exame === "positivo",
+        confirmado: exame,
         gravidade: gravidade,
       };
   
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/casos`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/casos`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,10 +67,10 @@ export default function NewcaseForm() {
       console.log("Caso registrado com sucesso!");
       alert("Caso registrado com sucesso!");
       window.location.href = "/dashboard"
-      
+
     } catch (err) {
-      setError(""+err);
-      console.error(err);
+      setError("Erroao enviar caso...");
+      console.log(err);
     }
   }
 
@@ -85,7 +97,7 @@ export default function NewcaseForm() {
                   type="radio"
                   name="exame"
                   value="positivo"
-                  onChange={(e) => setExame(e.target.value)}
+                  onChange={() => setExame(true)}
                   required
                 />
                 <span className="text-sm">Sim</span>
@@ -96,7 +108,7 @@ export default function NewcaseForm() {
                   type="radio"
                   name="exame"
                   value="negativo"
-                  onChange={(e) => setExame(e.target.value)}
+                  onChange={() => setExame(false)}
                   required
                 />
                 <span className="text-sm">Não</span>

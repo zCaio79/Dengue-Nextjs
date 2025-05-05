@@ -17,9 +17,10 @@ export default function LoginForm() {
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false)
 
+
     const handleSubmitLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         setShowPassword(false)
 
         setError(null)
@@ -59,7 +60,7 @@ export default function LoginForm() {
                 setIsLoading(false)
                 return;
             }
-            
+
             document.cookie = `token=${data.token}; path=/; max-age=${7 * 24 * 60 * 60}; SameSite=Lax`;
 
             console.log("Logado com sucesso");
