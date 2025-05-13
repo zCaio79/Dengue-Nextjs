@@ -36,7 +36,7 @@ export default function LoginForm() {
         };
 
         try {
-            console.log("Enviando dados de login:", formData);
+            console.log("Enviando dados de login...");
             setIsLoading(true)
 
             const response = await fetch(`${APIKEY}/login`, {
@@ -62,8 +62,6 @@ export default function LoginForm() {
             }
 
             document.cookie = `token=${data.token}; path=/; max-age=${7 * 24 * 60 * 60}; SameSite=Lax`;
-
-            console.log("Logado com sucesso");
             setIsLoading(false)
 
             window.location.href = "/dashboard";

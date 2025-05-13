@@ -11,9 +11,9 @@ import { useUser } from "@/context/UserContext";
 export default function Dashboard() {
     const [casos, setCasos] = useState<Caso[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [center, setCenter] = useState<[number, number]>([-24.2485, -51.6755]);
+    const [center, setCenter] = useState<[number, number]>([-14.067, -56.017]);
     const [search, setSearch] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [selectedOption, setSelectedOption] = useState<string>("");
     const user = useUser().user;
 
@@ -22,7 +22,7 @@ export default function Dashboard() {
     }, [user]);
 
     const buscarCoordenadas = async (query: string) => {
-        if (!query.trim()) return;
+        if (!query.trim() || query == "") return;
 
         try {
             const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
@@ -119,19 +119,19 @@ export default function Dashboard() {
 
                 <div className="flex h-fit flex-col-reverse w-full gap-4 lg:w-7/12 md:flex-row md:itens-center lg:h-12">
 
-                    <div className="flex flex-wrap flex-row-reverse gap-2 w-full justify-center itens-center md:gap-4 lg:flex-row">
-                        <Link href="/newcase" className="flex items-center justify-center flex-grow gap-2 h-full w-fit text-nowrap text-xs bg-red-500 rounded-lg px-3 py-3.5 font-bold font-robotoMono text-white hover:bg-red-400 sm:text-sm">
+                    <div className="flex flex-row-reverse gap-2 w-full justify-center itens-center md:gap-4 lg:flex-row">
+                        <Link href="/newcase" className="flex items-center justify-center flex-grow  gap-2 h-full w-fit text-nowrap text-xs bg-red-500 rounded-lg px-3 py-3.5 font-bold font-robotoMono text-white hover:bg-red-400 sm:text-sm">
                             Adicionar Caso <Plus className="size-5" />
                         </Link>
 
-                        <div className="relative z-50 flex flex-row flex-grow items-center">
+                        <div className="relative z-50 flex flex-row items-center">
                             <div>
                                 <select
                                     value={selectedOption}
                                     onChange={(e) => {
                                         setSelectedOption(e.target.value);
                                     }}
-                                    className="flex p-3.5 rounded-lg bg-zinc-800 font-robotoMono font-bold text-white text-xs outline-none sm:text-sm"
+                                    className="flex flex-grow p-3.5 rounded-lg w-full bg-zinc-800 font-robotoMono font-bold text-white text-xs outline-none sm:text-sm"
                                 >
                                     <option value="">Filtrar</option>
                                     <option value="semana">Casos da Semana</option>
@@ -146,7 +146,7 @@ export default function Dashboard() {
                     <div className="relative flex w-full font-robotoMono font-medium text-sm">
                         <input
                             type="text"
-                            className="flex flex-grow w-full py-2 px-3 pr-8 border-2 border-dashed text-zinc-900 border-red-400 rounded-xl outline-none"
+                            className="flex flex-grow w-full py-2 px-3 pr-8 border-2  text-zinc-900 border-red-400 rounded-xl outline-none"
                             placeholder="Procurar localização"
                             onChange={(e) => setSearch(e.target.value)}
                             onKeyDown={(e) => {
@@ -161,7 +161,7 @@ export default function Dashboard() {
                             type="button"
                             onClick={() => buscarCoordenadas(search)}
                             className="absolute inset-y-0 right-3 flex items-center justify-center outline-none">
-                            <Search className="size-5 text-zinc-900" />
+                            <Search className="size-5 text-zinc-900 hover:text-red-500" />
                         </button>
                     </div>
 

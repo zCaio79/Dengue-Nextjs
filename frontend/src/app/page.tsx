@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 export default function intro() {
   return (
-    <div className="text-white px-6 pt-6 pb-3 gap-4 font-pop flex h-full flex-col w-full justify-center
+    <div className="text-white px-6 pt-6 pb-3 gap-6 font-pop flex h-full flex-col w-full justify-center
      items-center bg-zinc-900">
 
       <main className="flex flex-col w-full h-[90vh] items-center justify-around
@@ -54,9 +54,9 @@ export default function intro() {
 
       <ArrowDown />
 
-      <div className='flex flex-col gap-4 w-full justify-around xl:flex-row'>
+      <div className='flex flex-col gap-2 w-full justify-around xl:flex-row md:gap-6'>
 
-        <section id="about" className="flex flex-col gap-6 p-8 h-fit rounded-lg bg-white xl:w-[55vw]">
+        <section id="about" className="flex flex-col gap-4 p-8 h-fit rounded-lg bg-white xl:w-[55vw]">
 
           <div className='flex flex-row flex-wrap h-fit gap-8 justify-center sm:flex-nowrap'>
 
@@ -71,7 +71,7 @@ export default function intro() {
 
             </article>
 
-            <article className='flex flex-col gap-4 w-96 justify-around border-4 border-dashed border-zinc-500 rounded-lg p-6'>
+            <article className='flex flex-col gap-2 w-96 justify-around border-4 border-dashed border-zinc-500 rounded-lg p-6'>
 
               <p className='text-sm font-semibold text-justify font-robotoMono text-zinc-900 text-pretty xl:text-base'>
                 A dengue é uma doença febril aguda, sistêmica, dinâmica, debilitante e autolimitada.
@@ -79,10 +79,10 @@ export default function intro() {
                 A quase totalidade dos óbitos por dengue é evitável e depende, na maioria das vezes, da qualidade da assistência prestada e organização da rede de serviços de saúde.
               </p>
 
-              <a className="flex gap-2 w-fit font-robotoMono text-sm  font-semibold self-end bg-zinc-900
-               rounded-lg py-1 px-4 text-white hover:bg-opacity-50 xl:text-base"
+              <a className="flex gap-2 w-fit items-center font-robotoMono text-sm  font-semibold self-end bg-zinc-900
+               rounded-lg py-2 px-4 text-white hover:bg-opacity-50 xl:text-base"
               href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/d/dengue">
-                <ArrowRight />Saiba mais
+                <ArrowRight className='size-5'/>Saiba mais
               </a>
 
             </article>
@@ -103,7 +103,7 @@ export default function intro() {
 
         </section>
 
-        <section className='flex flex-col gap-6 items-center p-8 h-full rounded-lg bg-white xl:w-[35vw]'>
+        <section className='flex flex-col gap-4 items-center p-8 h-full rounded-lg bg-white xl:w-[35vw]'>
 
           <div className='flex w-full bg-zinc-900 rounded-md gap-4 p-2 items-center justify-center'>
 

@@ -33,7 +33,6 @@ const ClusterMarkers = ({ casos }: { casos: Caso[] }) => {
 
   useEffect(() => {
     if (!Array.isArray(casos) || casos.length === 0) {
-      console.log("casos não é um array de Caso");
       return;
     }
 
@@ -62,6 +61,7 @@ const ClusterMarkers = ({ casos }: { casos: Caso[] }) => {
           iconSize: [size, size],
         });
       },
+      maxClusterRadius: 50,
     });
 
     for (const caso of casos) {
@@ -113,7 +113,7 @@ const Map = ({ casos, isLoading, center }: MapProps) => {
   return (
     <MapContainer
       center={center}
-      zoom={12}
+      zoom={4}
       className="h-full w-full z-40"
       zoomControl={false}
       maxZoom={19}
@@ -124,7 +124,7 @@ const Map = ({ casos, isLoading, center }: MapProps) => {
         attribution="©OpenStreetMap"
         noWrap
       />
-      <ClusterMarkers casos={Array.isArray(casos) ? casos : []} />
+      <ClusterMarkers casos={casos} />
     </MapContainer>
   );
 };

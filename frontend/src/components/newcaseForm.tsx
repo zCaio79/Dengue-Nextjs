@@ -205,13 +205,13 @@ export default function NewcaseForm() {
       <div className="flex gap-4 w-full justify-center">
         <Link
           href="/dashboard"
-          className="flex items-center justify-center w-24 text-sm bg-red-500 rounded-lg py-1 text-white hover:bg-red-400 transition"
+          className="flex items-center justify-center w-24 text-sm bg-red-500 rounded-lg py-2 text-white hover:bg-red-400 transition"
         >
           Cancelar
         </Link>
         <button
           type="submit"
-          className="flex items-center justify-center w-24 text-sm bg-emerald-500 rounded-lg py-1 text-white hover:bg-emerald-400 transition"
+          className="flex items-center justify-center w-24 text-sm bg-emerald-500 rounded-lg py-2 text-white hover:bg-emerald-400 transition"
         >
           Enviar
         </button>

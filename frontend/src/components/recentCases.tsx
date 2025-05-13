@@ -37,7 +37,8 @@ export default function RecentCases() {
 
     if (casos.length === 0) {
         return(
-            <span className="flex flex-col gap-4 items-center font-robotoMono font-medium self-center text-sm text-zinc-800">Nenhum caso encontrado Hoje... <Laugh className="size-5 animate-bounce"/></span>
+            <span className="flex flex-col gap-6 items-center font-robotoMono font-semibold self-center text-sm text-zinc-800">
+                Nenhum caso foi encontrado Hoje... <Laugh className="size-6 animate-bounce text-emerald-500"/></span>
         )
     }
 
