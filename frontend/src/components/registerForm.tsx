@@ -286,14 +286,11 @@ export default function RegisterForm() {
 
                 {isLoading ?
                     <div className="flex flex-row gap-6 justify-center w-full ">
-                        <button className="flex self-center my-1 w-fit text-sm bg-red-500 rounded-lg py-1 px-3 text-white hover:bg-red-400">
-                            Entrar
-                        </button>
                         <Image unoptimized src="/loading.svg" alt="loading" width={40} height={40} />
                     </div>
                     :
-                    <button type="submit" className="flex self-center my-1 w-fit text-sm bg-red-500 rounded-lg py-1 px-3 text-white hover:bg-red-400">
-                        Entrar
+                    <button type="submit" className="flex self-center my-1 w-fit text-sm bg-red-500 rounded-lg py-2 px-3 text-white hover:bg-red-400">
+                        Cadastrar
                     </button>
                 }
 

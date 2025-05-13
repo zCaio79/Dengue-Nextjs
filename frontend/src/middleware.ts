@@ -3,12 +3,12 @@ import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
-
   
   if (token && (req.nextUrl.pathname === "/login" || req.nextUrl.pathname === "/register")) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
-  if (!token && req.nextUrl.pathname === "/newcase"){
+
+  if (!token && req.nextUrl.pathname === "/newcase") {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
@@ -16,5 +16,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login", "/register"]
+  matcher: ["/login", "/register", "/newcase", "/dashboard"],
 };

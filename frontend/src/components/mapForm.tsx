@@ -6,6 +6,7 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import L, { LatLng } from "leaflet";
 import Image from "next/image";
 
+
 interface MapFormProps {
     position: LatLng | null;
     setPosition: (position: LatLng) => void;
@@ -47,8 +48,8 @@ export default function MapForm({ position, setPosition }: MapFormProps) {
         <div className="flex w-full h-[40vh] rounded-md items-center bg-zinc-900 p-2 flex-col gap-2">
             <p className="text-sm text-center font-semibold text-white">Selecione sua Localização</p>
             <MapContainer
-                center={position ? [position.lat, position.lng] : [-24.2485, -51.6755]}
-                zoom={13}
+                center={position ? [position.lat, position.lng] : [-14.2350, -51.9253]}
+                zoom={2}
                 className="h-full w-full rounded-md"
                 markerZoomAnimation={true}
                 zoomControl={false}

@@ -33,11 +33,36 @@ const ClusterMarkers = ({ casos }: { casos: Caso[] }) => {
 
   useEffect(() => {
     if (!Array.isArray(casos) || casos.length === 0) {
-      console.log("casos n é um array de Caso")
+      console.log("casos não é um array de Caso");
       return;
     }
 
-    const clusterGroup = L.markerClusterGroup();
+    const clusterGroup = L.markerClusterGroup({
+      iconCreateFunction: (cluster) => {
+        const count = cluster.getChildCount();
+        let clusterColor = "bg-red-500";
+        const textColor = "text-white";
+
+        if (count < 10) {
+          clusterColor = "bg-emerald-500";
+        } else if (count < 30) {
+          clusterColor = "bg-amber-500";
+        }
+
+        const size = count < 10 ? 40 : count < 30 ? 50 : 60;
+
+        return L.divIcon({
+          html: `
+            <div class="flex items-center justify-center ${clusterColor} ${textColor} font-bold rounded-full border-2 text-md shadow-lg" 
+                 style="width: ${size}px; height: ${size}px; line-height: ${size}px;">
+              ${count}
+            </div>
+          `,
+          className: "",
+          iconSize: [size, size],
+        });
+      },
+    });
 
     for (const caso of casos) {
       const lat = parseFloat(String(caso.latitude));
@@ -45,17 +70,20 @@ const ClusterMarkers = ({ casos }: { casos: Caso[] }) => {
 
       const marker = L.marker([lat, lng], {
         icon: L.icon({
-          iconUrl: '/icon.png',
-          iconSize: [30, 30],
-          iconAnchor: [15, 30],
-          popupAnchor: [0, -30],
+          iconUrl: '/mosquitoicon.png',
+          iconSize: [40, 40],
+          iconAnchor: [20, 40],
+          popupAnchor: [0, -40],
         }),
       });
 
       marker.bindPopup(
-        `<div>Gravidade: ${caso.gravidade} <br/> Status: 
-        ${caso.confirmado ? "Confirmado" : "Não confirmado"} <br/>
-        ${caso.data_registro}
+        `<div>
+          <strong>Usuário:</strong> ${caso.usuario_nome} <br/>
+          <strong>Gravidade:</strong> ${caso.gravidade} <br/>
+          <strong>Status:</strong> ${caso.confirmado ? "Confirmado" : "Suspeita"} <br/>
+          <strong>Data:</strong> ${caso.data_registro}
+          
         </div>`,
         { closeButton: false }
       );
@@ -85,11 +113,11 @@ const Map = ({ casos, isLoading, center }: MapProps) => {
   return (
     <MapContainer
       center={center}
-      zoom={13}
+      zoom={12}
       className="h-full w-full z-40"
       zoomControl={false}
       maxZoom={19}
-      minZoom={5}
+      minZoom={4}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

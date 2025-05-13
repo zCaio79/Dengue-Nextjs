@@ -1,25 +1,28 @@
 'use client'
 
-import DateFilterBtn from "@/components/dateFilterBtn";
 import RecentCases from "@/components/recentCases";
 import { ArrowDown, ArrowLeft, Search, User2Icon, X, Plus } from "lucide-react";
 import Link from 'next/link';
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Caso } from "@/components/map";
-
-const APIKEY = process.env.NEXT_PUBLIC_API_URL;
+import { useUser } from "@/context/UserContext";
 
 export default function Dashboard() {
     const [casos, setCasos] = useState<Caso[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [center, setCenter] = useState<[number, number]>([-24.2485, -51.6755]);
     const [search, setSearch] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [selectedOption, setSelectedOption] = useState<string>("");
+    const user = useUser().user;
+
+    useEffect(() => {
+        setIsLoggedIn(!!user);
+    }, [user]);
 
     const buscarCoordenadas = async (query: string) => {
-        if (!query.trim()) {
-            return;
-        }
+        if (!query.trim()) return;
 
         try {
             const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
@@ -27,18 +30,41 @@ export default function Dashboard() {
             if (data.length > 0) {
                 const { lat, lon } = data[0];
                 setCenter([parseFloat(lat), parseFloat(lon)]);
-            } else {
-                return
             }
         } catch (err) {
             console.error("Erro ao buscar localização:", err);
         }
-    };
+    }
 
     useEffect(() => {
         const fetchCasos = async () => {
             try {
-                const res = await fetch(`${APIKEY}/casos`);
+                let url = `${process.env.NEXT_PUBLIC_API_URL}/casos`;
+
+                if (selectedOption) {
+                    const now = new Date();
+                    let startDate = new Date();
+                    const endDate = now;
+
+                    switch (selectedOption) {
+                        case "semana":
+                            startDate.setDate(now.getDate() - 7);
+                            break;
+                        case "mes":
+                            startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                            break;
+                        case "ano":
+                            startDate = new Date(now.getFullYear(), 0, 1);
+                            break;
+                        default:
+                            console.warn("Opção desconhecida:", selectedOption);
+                            return;
+                    }
+
+                    url += `?data_inicio=${startDate.toISOString().split('T')[0]}&data_fim=${endDate.toISOString().split('T')[0]}`;
+                }
+
+                const res = await fetch(url);
                 const { casos } = await res.json();
                 setCasos(casos);
                 setIsLoading(false);
@@ -48,22 +74,9 @@ export default function Dashboard() {
         };
 
         fetchCasos();
-    }, []);
+    }, [selectedOption]);
 
     const Map = dynamic(() => import("@/components/map"), { ssr: false });
-
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        if (document.cookie.includes("token")) {
-            setIsLoggedIn(true);
-        }
-    }, []);
-
-    const user = {
-        name: "Caio",
-        subname: "Henrique"
-    }
 
     const handleLogout = () => {
         document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
@@ -84,18 +97,18 @@ export default function Dashboard() {
                         </Link>
 
                         {isLoggedIn ? (
-                            <>
-                                <Link href="#" className="flex items-center text-nowrap gap-2 w-fit text-xs bg-red-500 rounded-lg px-3 py-2 font-bold font-robotoMono text-white hover:bg-red-400 sm:text-sm">
+                            <div className="flex gap-2 flex-wrap">
+                                <div className="flex items-center text-nowrap gap-2 w-fit text-xs bg-red-500 rounded-lg px-4 py-3 font-bold font-robotoMono text-white sm:text-sm">
                                     <User2Icon className="size-5" />
-                                    <p>{user.name} {user.subname}</p>
-                                </Link>
-                                <button type="button" onClick={handleLogout} className="flex h-full items-center gap-2 w-fit text-xs bg-zinc-900 rounded-lg px-3 py-2 font-bold font-robotoMono text-white hover:bg-zinc-600 sm:text-sm">
+                                    <p>{user?.name}</p>
+                                </div>
+                                <button type="button" onClick={handleLogout} className="flex h-full items-center gap-2 w-fit text-xs bg-zinc-900 rounded-lg px-4 py-3 font-bold font-robotoMono text-white hover:bg-zinc-600 sm:text-sm">
                                     <p>Sair</p>
                                     <X className="size-5" />
                                 </button>
-                            </>
+                            </div>
                         ) : (
-                            <Link href="/login" className="flex h-full items-center gap-2 w-fit text-xs bg-red-500 rounded-lg px-3 py-2 font-bold font-robotoMono text-white hover:bg-red-400 sm:text-sm">
+                            <Link href="/login" className="flex h-full items-center gap-2 w-fit text-xs bg-red-500 rounded-lg px-4 py-3 font-bold font-robotoMono text-white hover:bg-red-400 sm:text-sm">
                                 <User2Icon />
                                 Convidado
                             </Link>
@@ -106,13 +119,28 @@ export default function Dashboard() {
 
                 <div className="flex h-fit flex-col-reverse w-full gap-4 lg:w-7/12 md:flex-row md:itens-center lg:h-12">
 
-                    <div className="flex flex-row-reverse gap-2 w-full justify-center itens-center md:gap-4 lg:flex-row">
-                        <Link href="/newcase" className="flex items-center gap-2 h-full w-fit text-nowrap text-xs bg-red-500 rounded-lg px-3
-                        py-2 font-bold font-robotoMono text-white hover:bg-red-400 sm:text-sm">
+                    <div className="flex flex-wrap flex-row-reverse gap-2 w-full justify-center itens-center md:gap-4 lg:flex-row">
+                        <Link href="/newcase" className="flex items-center justify-center flex-grow gap-2 h-full w-fit text-nowrap text-xs bg-red-500 rounded-lg px-3 py-3.5 font-bold font-robotoMono text-white hover:bg-red-400 sm:text-sm">
                             Adicionar Caso <Plus className="size-5" />
                         </Link>
 
-                        <DateFilterBtn />
+                        <div className="relative z-50 flex flex-row flex-grow items-center">
+                            <div>
+                                <select
+                                    value={selectedOption}
+                                    onChange={(e) => {
+                                        setSelectedOption(e.target.value);
+                                    }}
+                                    className="flex p-3.5 rounded-lg bg-zinc-800 font-robotoMono font-bold text-white text-xs outline-none sm:text-sm"
+                                >
+                                    <option value="">Filtrar</option>
+                                    <option value="semana">Casos da Semana</option>
+                                    <option value="mes">Casos do Mês</option>
+                                    <option value="ano">Casos do Ano</option>
+                                </select>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div className="relative flex w-full font-robotoMono font-medium text-sm">
@@ -143,7 +171,7 @@ export default function Dashboard() {
 
             <main className="flex flex-col-reverse gap-2 w-full h-full justify-between overflow-hidden lg:flex-row lg:gap-8 md:flex-col">
 
-                <section className="flex flex-col gap-4 w-full min-w-fit p-4 h-[70vh] rounded-lg bg-white lg:w-2/5 lg:h-full h-lg:w-full">
+                <section className="flex flex-col justify-center items-center gap-4 w-full min-w-fit p-4 h-[70vh] rounded-lg bg-white lg:w-2/5 lg:h-full h-lg:w-full">
                     <RecentCases />
                 </section>
 

@@ -10,7 +10,7 @@ export default function Register() {
      items-center bg-gradient-to-r bg-zinc-900 md:h-screen">
 
       <main className="flex w-full h-full  items-center justify-center
-       rounded-lg border-white border-4 border-dashed">
+       rounded-lg border-white border-4 border-dashed sm:border-4 sm:border-dashed">
 
         <RegisterForm/>
 

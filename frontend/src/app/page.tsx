@@ -10,7 +10,7 @@ export default function intro() {
      items-center bg-zinc-900">
 
       <main className="flex flex-col w-full h-[90vh] items-center justify-around
-       py-6 px-8 rounded-lg border-4 border-white border-dashed lg:flex-row ">
+       py-6 px-8 rounded-lg lg:flex-row sm:border-4 sm:border-dashed">
 
 
         <section className="flex flex-col gap-8 text-6xl  p-2 drop-shadow-xl xl:text-8xl ">

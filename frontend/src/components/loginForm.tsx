@@ -114,14 +114,11 @@ export default function LoginForm() {
             {error && <div className="text-xs w-full text-center p-2 bg-red-500 text-white rounded-md py-1">{error}</div>}
 
             {isLoading ?
-                <div className="flex flex-row gap-6 justify-center w-full ">
-                    <button className="flex self-center my-1 w-fit text-sm bg-red-500 rounded-lg py-1 px-3 text-white hover:bg-red-400">
-                        Entrar
-                    </button>
+                <div className="flex flex-row justify-center w-full ">
                     <Image unoptimized src="/loading.svg" alt="loading" width={40} height={40} />
                 </div>
                 :
-                <button type="submit" className="flex self-center my-1 w-fit text-sm bg-red-500 rounded-lg py-1 px-3 text-white hover:bg-red-400">
+                <button type="submit" className="flex self-center my-1 w-fit text-sm bg-red-500 rounded-lg py-2 px-3 text-white hover:bg-red-400">
                     Entrar
                 </button>
             }

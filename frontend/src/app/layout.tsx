@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Roboto_Mono } from "next/font/google";
 import 'leaflet/dist/leaflet.css';
 import "./globals.css";
+import { UserProvider } from "@/context/UserContext";
 
 const robotoMono = Roboto_Mono({
   subsets: ["latin"],
@@ -24,6 +25,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Dengue Map",
   description: "Created by zCaio79",
+  icons: {
+    icon: "/webicon.png",
+  },
 };
 
 export default function RootLayout({
@@ -33,13 +37,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br" className={robotoMono.variable}>
-       <head>
-        
-        </head>
+      <head>
+
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <UserProvider>
+          {children}
+        </UserProvider>
       </body>
     </html>
   );
