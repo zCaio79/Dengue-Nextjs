@@ -43,44 +43,49 @@ export default function Dashboard() {
     }
 
     useEffect(() => {
-        const fetchCasos = async () => {
-            try {
-                let url = `${process.env.NEXT_PUBLIC_API_URL}/casos`;
+    const fetchCasos = async () => {
+        try {
+            let url = `${process.env.NEXT_PUBLIC_API_URL}/casos`;
 
-                if (selectedOption) {
-                    const now = new Date();
-                    let startDate = new Date();
-                    const endDate = now;
+            if (selectedOption) {
+                let startDate = new Date();
+                const endDate = new Date();
 
-                    switch (selectedOption) {
-                        case "semana":
-                            startDate.setDate(now.getDate() - 7);
-                            break;
-                        case "mes":
-                            startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-                            break;
-                        case "ano":
-                            startDate = new Date(now.getFullYear(), 0, 1);
-                            break;
-                        default:
-                            console.warn("Opção desconhecida:", selectedOption);
-                            return;
-                    }
-
-                    url += `?data_inicio=${startDate.toISOString().split('T')[0]}&data_fim=${endDate.toISOString().split('T')[0]}`;
+                switch (selectedOption) {
+                    case "semana":
+                        startDate.setDate(startDate.getDate() - 7);
+                        break;
+                    case "mes":
+                        startDate = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+                        break;
+                    case "ano":
+                        startDate = new Date(startDate.getFullYear(), 0, 1);
+                        break;
+                    default:
+                        console.warn("Opção desconhecida:", selectedOption);
+                        return;
                 }
+                const startDateString = startDate.toLocaleDateString("en-CA");
+                const endDateString = new Date(endDate.setDate(endDate.getDate() + 1)).toLocaleDateString("en-CA");
 
-                const res = await fetch(url);
-                const { casos } = await res.json();
-                setCasos(casos);
-                setIsLoading(false);
-            } catch (err) {
-                console.error('Erro ao buscar casos:', err);
+                url += `?data_inicio=${startDateString}&data_fim=${endDateString}`;
             }
-        };
 
-        fetchCasos();
-    }, [selectedOption]);
+            const res = await fetch(url);
+            const { casos } = await res.json();
+            setCasos(casos);
+            console.log(casos);
+            
+        } catch (err) {
+            console.error('Erro ao buscar casos:', err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    fetchCasos();
+}, [selectedOption]);
+
 
     const Map = dynamic(() => import("@/components/map"), { ssr: false });
 
