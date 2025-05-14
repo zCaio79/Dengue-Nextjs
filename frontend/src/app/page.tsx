@@ -3,8 +3,22 @@ import Footer from '@/components/footer';
 import { ArrowDown, ArrowRight, ShieldPlus, Bug } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Sintomas from '@/components/sintoma';
 
 export default function intro() {
+
+  const symptoms = [
+    "Febre alta 🤒",
+    "Náuseas constantes 🤢",
+    "Dor muscular 💪🏻",
+    "Dor articular 🦵🏻",
+    "Dor abdominal 😣",
+    "Dor ocular 👁️",
+    "Fraqueza geral 😪",
+    "Vômitos frequentes 🤮",
+    "Perda de apetite 🍖",
+  ];
+
   return (
     <div className="text-white px-6 pt-6 pb-3 gap-6 font-pop flex h-full flex-col w-full justify-center
      items-center bg-zinc-900">
@@ -98,7 +112,7 @@ export default function intro() {
 
           <article className='flex w-full gap-4 text-base font-medium justify-center
            flex-wrap rounded-md p-6 border-4 border-dashed border-zinc-500'>
-            {sintomas()}
+            <Sintomas symptoms={symptoms}/>
           </article>
 
         </section>
@@ -146,29 +160,5 @@ export default function intro() {
 
     </div>
 
-  );
-}
-
-export function sintomas() {
-  const symptoms = [
-    "Febre alta 🤒",
-    "Náuseas constantes 🤢",
-    "Dor muscular 💪🏻",
-    "Dor articular 🦵🏻",
-    "Dor abdominal 😣",
-    "Dor ocular 👁️",
-    "Fraqueza geral 😪",
-    "Vômitos frequentes 🤮",
-    "Perda de apetite 🍖",
-  ];
-
-  return (
-    <>
-      {symptoms.map((symptom, index) => (
-        <p key={index} className="flex py-2 px-4 w-full justify-center font-robotoMono text-center bg-zinc-900 rounded-md text-xs xl:text-base sm:w-fit">
-          {symptom}
-        </p>
-      ))}
-    </>
   );
 }
