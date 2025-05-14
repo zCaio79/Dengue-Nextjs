@@ -127,7 +127,7 @@ export default function RegisterForm() {
 
         try {
             setIsLoading(true)
-            console.log("Enviando dados:", JSON.stringify(formData));
+            console.log("Enviando dados de registro...");
 
             const response = await fetch(`${APIKEY}/cadastrar_usuario`, {
                 method: "POST",

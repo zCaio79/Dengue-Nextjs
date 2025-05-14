@@ -15,8 +15,10 @@ export default function RecentCases() {
 
     useEffect(() => {
         const fetchCasos = async () => {
+
             try {
-                const hoje = new Date().toISOString().split("T")[0];
+                const hoje = new Date().toLocaleDateString("en-CA");
+
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/casos/recentes?data=${hoje}`);
                 const { casos_recentes } = await res.json();
                 setCasos(casos_recentes);
@@ -36,9 +38,9 @@ export default function RecentCases() {
     }
 
     if (casos.length === 0) {
-        return(
+        return (
             <span className="flex flex-col gap-6 items-center font-robotoMono font-semibold self-center text-sm text-zinc-800">
-                Nenhum caso foi encontrado Hoje... <Laugh className="size-6 animate-bounce text-emerald-500"/></span>
+                Nenhum caso foi encontrado Hoje... <Laugh className="size-6 animate-bounce text-emerald-500" /></span>
         )
     }
 
@@ -47,7 +49,7 @@ export default function RecentCases() {
             <div className='flex w-full items-center gap-4 bg-red-500 rounded-lg p-2 mb-2 justify-center'>
 
                 <h1 className='text-lg text-white font-robotoMono font-semibold text-center'>Casos Recentes</h1>
-                <ClockArrowUp className="size-5 text-white"/>
+                <ClockArrowUp className="size-5 text-white" />
 
             </div>
             <article className='flex w-full font-robotoMono gap-3 pl-1 pr-2 h-full flex-col overflow-scroll scrollbar-thin'>

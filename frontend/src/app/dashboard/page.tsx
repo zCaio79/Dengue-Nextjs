@@ -11,7 +11,7 @@ import { useUser } from "@/context/UserContext";
 export default function Dashboard() {
     const [casos, setCasos] = useState<Caso[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [center, setCenter] = useState<[number, number]>([-14.067, -56.017]);
+    const [center, setCenter] = useState<[number, number]>([-24.2483, -51.6797]);
     const [search, setSearch] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [selectedOption, setSelectedOption] = useState<string>("");

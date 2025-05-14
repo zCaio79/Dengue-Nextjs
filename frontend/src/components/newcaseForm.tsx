@@ -48,12 +48,17 @@ export default function NewcaseForm() {
         return;
       }
 
+      const now = new Date();
+      now.setHours(now.getHours() - 3);
+      const data_registro = now.toISOString().replace("T", " ").slice(0, 19);
+
+
       const body = {
         latitude: position.lat,
         longitude: position.lng,
         confirmado: exame,
         gravidade: gravidade,
-        data_registro : new Date().toISOString().replace('T', ' ').slice(0, 19)
+        data_registro: data_registro
 
       };
 
@@ -67,10 +72,10 @@ export default function NewcaseForm() {
       });
 
       if (!response.ok) {
-        const data = await response.json()
-        setError("Um Erro ocorreu, tente novamente...")
+        const { mensagem } = await response.json()
+        setError(mensagem)
         setIsLoading(false)
-        throw new Error(data.message || "Erro ao registrar caso.")
+        return
       }
 
       console.log("Caso registrado com sucesso!");
@@ -79,7 +84,6 @@ export default function NewcaseForm() {
       setIsLoading(false)
 
     } catch (err) {
-      setError("Erroao enviar caso...");
       console.log(err);
       setIsLoading(false)
     }
