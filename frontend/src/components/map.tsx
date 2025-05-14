@@ -113,7 +113,7 @@ const Map = ({ casos, isLoading, center }: MapProps) => {
   return (
     <MapContainer
       center={center}
-      zoom={12}
+      zoom={11}
       className="h-full w-full z-40"
       zoomControl={false}
       maxZoom={19}

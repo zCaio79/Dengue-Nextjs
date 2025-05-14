@@ -7,11 +7,12 @@ import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Caso } from "@/components/map";
 import { useUser } from "@/context/UserContext";
+import Image from "next/image";
 
 export default function Dashboard() {
     const [casos, setCasos] = useState<Caso[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [center, setCenter] = useState<[number, number]>([-24.2483, -51.6797]);
+    const [center, setCenter] = useState<[number, number] | null>(null);
     const [search, setSearch] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [selectedOption, setSelectedOption] = useState<string>("");
@@ -19,6 +20,11 @@ export default function Dashboard() {
 
     useEffect(() => {
         setIsLoggedIn(!!user);
+        if (user != undefined) {
+            buscarCoordenadas(user.cidade);
+        } else {
+            setCenter([-24.2483, -51.6797])
+        }
     }, [user]);
 
     const buscarCoordenadas = async (query: string) => {
@@ -179,11 +185,16 @@ export default function Dashboard() {
 
                 <section className="flex w-full rounded-lg overflow-hidden bg-white">
                     <article className='flex justify-center items-center w-full h-[75vh] flex-col lg:h-full'>
-                        <Map
+                        {center != null ? <Map
                             casos={casos}
                             isLoading={isLoading}
                             center={center}
                         />
+                            :
+                            <div className="flex w-full h-full rounded-lg justify-center items-center bg-white">
+                                <Image unoptimized src="/loading.svg" alt="loading" width={50} height={50} />
+                            </div>
+                        }
                     </article>
                 </section>
 
