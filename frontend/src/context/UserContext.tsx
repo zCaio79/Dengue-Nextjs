@@ -1,6 +1,12 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import {
+    createContext,
+    useContext,
+    useState,
+    useEffect,
+    ReactNode,
+} from 'react';
 
 interface User {
     name: string;
@@ -19,35 +25,64 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     function getTokenFromCookie() {
         const cookieString = document.cookie;
-        const cookies = cookieString.split("; ");
-
+        const cookies = cookieString.split('; ');
         for (const cookie of cookies) {
-            const [name, value] = cookie.split("=");
-            if (name === "token") return value;
+            const [name, value] = cookie.split('=');
+            if (name === 'token') return value;
         }
-
         return null;
     }
 
-    useEffect(() => {
-        const token = getTokenFromCookie()
+    async function refreshToken() {
+        const token = getTokenFromCookie();
+        if (!token) return;
 
-        if (token != null) {
-            fetch(`${process.env.NEXT_PUBLIC_API_URL}/usuario/unico`, {
-                method: 'GET',
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/renovar_token`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.usuario) {
-                        setUser({ name: data.usuario.nome, cidade: data.usuario.cidade });
-                    }
-                })
-                .catch(err => console.error('Erro ao buscar usuário:', err));
+            });
+
+            if (!res.ok) throw new Error('Erro ao renovar token');
+
+            const data = await res.json();
+            const newToken = data.token;
+
+            if (!newToken) throw new Error('Token não retornado');
+
+            document.cookie = `token=${newToken}; path=/;`;
+
+            const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/usuario/unico`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${newToken}`,
+                },
+            });
+
+            const userData = await userRes.json();
+            if (userData.usuario) {
+                setUser({
+                    name: userData.usuario.nome,
+                    cidade: userData.usuario.cidade,
+                });
+            }
+        } catch (err) {
+            console.error('Erro ao tentar renovar token:', err);
         }
+    }
+
+    useEffect(() => {
+        refreshToken();
+
+        const interval = setInterval(() => {
+            refreshToken();
+        }, 1000 * 60 * 60);
+
+        return () => clearInterval(interval);
     }, []);
 
     return (
@@ -61,4 +96,4 @@ export const useUser = () => {
     const context = useContext(UserContext);
     if (!context) throw new Error('useUser deve ser usado dentro de um UserProvider');
     return context;
-}
+};
