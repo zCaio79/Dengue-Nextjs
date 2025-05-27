@@ -11,6 +11,7 @@ import {
 interface User {
     name: string;
     cidade: string;
+
 }
 
 interface UserContextType {

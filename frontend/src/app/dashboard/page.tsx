@@ -74,7 +74,6 @@ export default function Dashboard() {
             const res = await fetch(url);
             const { casos } = await res.json();
             setCasos(casos);
-            console.log(casos);
             
         } catch (err) {
             console.error('Erro ao buscar casos:', err);

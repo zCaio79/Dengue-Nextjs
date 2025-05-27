@@ -72,11 +72,12 @@ export default function NewcaseForm() {
       });
 
       if (!response.ok) {
-        const { mensagem } = await response.json()
-        setError(mensagem)
+        const { erro } = await response.json()
+        setError(erro)
         setIsLoading(false)
         return
       }
+
 
       console.log("Caso registrado com sucesso!");
 
