@@ -129,7 +129,7 @@ export default function RegisterForm() {
             setIsLoading(true)
             console.log("Enviando dados de registro...");
 
-            const response = await fetch(`${APIKEY}/cadastrar_usuario`, {
+            const response = await fetch(`${APIKEY}/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -306,9 +306,10 @@ export default function RegisterForm() {
                         <div className="flex font-robotoMono flex-col font-semibold p-16 justify-center items-center gap-6
                          rounded-lg border-4 border-dashed border-red-500">
 
-                            <p className="text-lg">Cadastro Realizado! </p>
-                            <Link href="/login" className="flex items-center gap-2 bg-red-500 py-2 px-4 rounded-md font-robotoMono
-                             text-white text-sm hover:bg-red-400">Login <BadgeCheck className="size-5" />
+                            <p className="text-md text-center">Verifique Seu email! </p>
+                            <p className="text-sm text-center text-zinc-700">Um codigo foi enviado a sua caixa de emails </p>
+                            <Link href="/verify" className="flex items-center gap-2 bg-red-500 py-2 px-4 rounded-md font-robotoMono
+                             text-white text-sm hover:bg-red-400">Validar <BadgeCheck className="size-5" />
                             </Link>
 
                         </div>
